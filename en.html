@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Harmony · Local AI Visual Production Studio</title>
+<meta name="description" content="Harmony: a desktop studio for short-video creators — image editing, layers, local AI image and video generation. 14-day full trial, one-time purchase.">
+<link rel="alternate" hreflang="zh-CN" href="index.html">
+<link rel="alternate" hreflang="en" href="en.html">
+<link rel="alternate" hreflang="ja" href="ja.html">
+<style>
+  :root{
+    --bg:#ffffff; --bg2:#f5f6fa; --card:#ffffff; --ink:#1c1e26; --muted:#5b6070;
+    --line:#e5e7f0; --navy:#170057; --navy2:#0d0038; --blue:#2575fc; --cyan:#00c5ff;
+    --grad:linear-gradient(92deg,#2575fc 0%,#00c5ff 100%);
+    --grad-dark:linear-gradient(125deg,#0d0038 0%,#170057 52%,#123a9e 130%);
+    --radius:14px; --shadow:0 10px 34px rgba(23,0,87,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  /* ---------- 顶部信息条 ---------- */
+  .topbar{background:var(--navy2);color:#cfd2ff;font-size:.78rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:36px;gap:14px}
+  .topbar .tb-r{color:#8f96c9;white-space:nowrap}
+  /* ---------- 导航 ---------- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.12rem;white-space:nowrap;color:var(--ink);text-decoration:none}
+  .brand .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:1.02rem;box-shadow:0 4px 14px rgba(37,117,252,.35)}
+  .brand small{color:var(--muted);font-weight:600;font-size:.76rem;letter-spacing:.08em}
+  nav ul{display:flex;gap:2px;list-style:none;align-items:center;flex-wrap:wrap}
+  nav a.navlink{text-decoration:none;color:#3c4152;font-size:.9rem;font-weight:600;padding:8px 12px;border-radius:9px;white-space:nowrap}
+  nav a.navlink:hover{color:var(--blue);background:#eef3ff}
+  .langsel{display:flex;background:#eef0f7;border:1px solid var(--line);border-radius:999px;padding:3px;margin-left:8px}
+  .langsel a{text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap}
+  .langsel a.on{background:var(--grad);color:#fff}
+  .nav-cta{text-decoration:none;background:var(--grad);color:#fff;font-weight:700;font-size:.88rem;
+    padding:9px 19px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(37,117,252,.30)}
+  .paychips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .paychip{font-size:.76rem;color:var(--blue);background:#eaf2ff;border:1px solid #c9dcff;border-radius:999px;padding:4px 11px;font-weight:600}
+  /* ---------- Hero ---------- */
+  .hero{background:var(--grad-dark);color:#fff;padding:78px 0 64px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:auto -10% -55% auto;width:720px;height:720px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(0,197,255,.28),transparent 70%);pointer-events:none}
+  .hero::after{content:"";position:absolute;inset:-40% auto auto -12%;width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(37,117,252,.35),transparent 70%);pointer-events:none}
+  .hero .wrap{position:relative;z-index:1;text-align:center}
+  .badge{display:inline-block;font-size:.78rem;color:#a8dcff;background:rgba(0,197,255,.12);
+    border:1px solid rgba(0,197,255,.4);padding:6px 15px;border-radius:999px;margin-bottom:24px;font-weight:600}
+  .hero h1{font-size:clamp(2.3rem,6.4vw,3.8rem);line-height:1.22;font-weight:800;letter-spacing:.01em;margin-bottom:20px}
+  .hero h1 .hl{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{color:#c6c9e8;font-size:clamp(1rem,2.6vw,1.15rem);max-width:700px;margin:0 auto 34px}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;font-size:.96rem;
+    padding:14px 30px;border-radius:11px;transition:transform .15s ease,box-shadow .15s ease}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 26px rgba(0,120,255,.35)}
+  .btn.primary:hover{transform:translateY(-2px)}
+  .btn.ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.35)}
+  .btn.ghost:hover{border-color:var(--cyan)}
+  /* ---------- 关键数据带 ---------- */
+  .databand{background:var(--grad);color:#fff}
+  .databand .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:30px 24px}
+  @media(min-width:760px){.databand .wrap{grid-template-columns:repeat(4,1fr)}}
+  .stat{text-align:center;padding:6px 4px}
+  .stat b{font-size:1.9rem;display:block;font-weight:800;line-height:1.25}
+  .stat small{color:rgba(255,255,255,.85);font-size:.84rem}
+  /* ---------- 产品截图框 ---------- */
+  .frame{margin:52px auto 0;max-width:920px;background:#10101c;border:1px solid rgba(255,255,255,.16);
+    border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:left}
+  .frame-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.1);background:#17172a}
+  .frame-bar i{width:11px;height:11px;border-radius:50%;background:#33334d;display:block}
+  .frame-bar i:first-child{background:var(--cyan)}
+  .frame-body{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#e8e9f5;
+    background:radial-gradient(closest-side,rgba(37,117,252,.16),transparent 78%)}
+  .frame-body .shot-label{font-weight:700;font-size:1.02rem}
+  .frame-body .shot-label span{display:block;font-weight:400;font-size:.84rem;color:#9aa0c3;margin-top:8px}
+  /* ---------- 通用版块 ---------- */
+  section.block{padding:78px 0 10px}
+  section.band{background:var(--bg2);margin-top:64px;padding:70px 0 64px}
+  .sechead{text-align:center;margin-bottom:40px}
+  .kicker{font-size:.76rem;font-weight:700;color:var(--blue);letter-spacing:.22em;margin-bottom:10px;text-transform:uppercase}
+  h2.sec{font-size:clamp(1.55rem,4.4vw,2.15rem);font-weight:800;letter-spacing:.01em}
+  .secbar{width:44px;height:4px;border-radius:2px;background:var(--grad);margin:16px auto 0}
+  p.secdesc{color:var(--muted);max-width:680px;margin:14px auto 0;text-align:center}
+  .sechead.left{text-align:left}
+  .sechead.left p.secdesc{margin-left:0;text-align:left}
+  .sechead.left .secbar{margin-left:0}
+  .grid{display:grid;gap:18px}
+  @media(min-width:640px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:27px;
+    box-shadow:0 2px 10px rgba(23,0,87,.04);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#c9dcff}
+  .card .icon{width:46px;height:46px;border-radius:12px;background:#eaf2ff;border:1px solid #c9dcff;
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:15px}
+  .card h3{font-size:1.05rem;margin-bottom:7px}
+  .card p{color:var(--muted);font-size:.92rem}
+  /* ---------- 关于: 左文右信息表 ---------- */
+  .about-grid{display:grid;gap:26px}
+  @media(min-width:860px){.about-grid{grid-template-columns:1.25fr 1fr;gap:40px}}
+  .about-txt p{color:var(--muted);margin-bottom:16px}
+  .afeats{list-style:none;margin-top:6px}
+  .afeats li{padding:7px 0;font-size:.96rem;border-bottom:1px dashed var(--line)}
+  .afeats li::before{content:"✓ ";color:var(--blue);font-weight:800}
+  .infocard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;align-self:start}
+  .infocard .ihead{background:var(--grad-dark);color:#fff;font-weight:800;padding:15px 22px;font-size:1rem}
+  .irow{display:flex;justify-content:space-between;gap:18px;padding:12px 22px;border-bottom:1px solid var(--line);font-size:.92rem}
+  .irow:last-child{border-bottom:none}
+  .irow span{color:var(--muted);white-space:nowrap}
+  .irow b{font-weight:700;text-align:right}
+  /* ---------- 产品历程 ---------- */
+  .timeline{max-width:820px;margin:0 auto;position:relative;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--blue),var(--cyan))}
+  .tl-item{position:relative;padding:0 0 30px 18px}
+  .tl-item:last-child{padding-bottom:4px}
+  .tl-item::before{content:"";position:absolute;left:-26px;top:7px;width:14px;height:14px;border-radius:50%;
+    background:#fff;border:3px solid var(--blue)}
+  .tl-date{display:inline-block;font-weight:800;color:var(--blue);background:#eaf2ff;border:1px solid #c9dcff;
+    border-radius:999px;padding:2px 12px;font-size:.8rem;margin-bottom:7px}
+  .tl-item h3{font-size:1.02rem;margin-bottom:4px}
+  .tl-item p{color:var(--muted);font-size:.92rem}
+  /* ---------- 展示 ---------- */
+  .show-grid{display:grid;gap:18px}
+  @media(min-width:640px){.show-grid{grid-template-columns:1fr 1fr}}
+  .shot{background:#f0f1f7;border:1px dashed #c3c7da;border-radius:var(--radius);
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:26px 18px;aspect-ratio:4/3}
+  .shot .shot-label{font-weight:700;font-size:.98rem}
+  .shot .shot-label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted);margin-top:7px}
+  /* ---------- 价格 ---------- */
+  .price-card{position:relative;border-color:#bcd4ff;background:linear-gradient(180deg,#f4f8ff,#ffffff)}
+  .price-badge{position:absolute;top:-13px;left:26px;background:var(--grad);color:#fff;
+    font-size:.74rem;font-weight:800;padding:4px 13px;border-radius:999px;letter-spacing:.05em}
+  .price-row{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;margin:8px 0 12px}
+  .price-now{font-size:2.5rem;font-weight:800;background:var(--grad);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .price-was{color:var(--muted);text-decoration:line-through;font-size:1.05rem}
+  .price-note{color:var(--muted);font-size:.88rem}
+  .price-feats{list-style:none;margin:16px 0 22px}
+  .price-feats li{padding:5px 0;font-size:.95rem}
+  .price-feats li::before{content:"✓ ";color:var(--blue);font-weight:800}
+  .steps{display:grid;gap:18px}
+  @media(min-width:640px){.steps{grid-template-columns:1fr 1fr 1fr}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:0 2px 10px rgba(23,0,87,.04)}
+  .step .num{width:33px;height:33px;border-radius:50%;background:var(--grad);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px}
+  .step h3{font-size:1rem;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:.9rem}
+  .fineprint{color:var(--muted);font-size:.86rem;margin-top:18px}
+  /* ---------- FAQ ---------- */
+  details.faq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px 21px;margin-bottom:12px}
+  details.faq summary{cursor:pointer;font-weight:700;font-size:.97rem}
+  details.faq p{color:var(--muted);font-size:.92rem;margin-top:10px}
+  /* ---------- CTA 带 ---------- */
+  .ctaband{margin-top:78px;background:var(--grad-dark);color:#fff}
+  .ctaband .wrap{padding:52px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+  .ctaband h2{font-size:clamp(1.35rem,3.6vw,1.8rem);font-weight:800}
+  .ctaband p{color:#c6c9e8;font-size:.95rem;margin-top:6px}
+  /* ---------- 页脚 ---------- */
+  footer{background:var(--navy2);color:#b9bce0}
+  footer .wrap{padding:52px 24px 30px}
+  .fgrid{display:grid;gap:30px}
+  @media(min-width:760px){.fgrid{grid-template-columns:1.5fr 1fr 1fr 1fr}}
+  footer .fbrand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;color:#fff;margin-bottom:12px}
+  footer .fbrand .mark{width:32px;height:32px;border-radius:9px;background:var(--grad);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.98rem}
+  footer h4{color:#fff;font-size:.95rem;margin-bottom:14px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:9px}
+  footer a{color:#b9bce0;text-decoration:none;font-size:.88rem}
+  footer a:hover{color:var(--cyan)}
+  footer .fabout{font-size:.86rem;color:#8f96c9;max-width:300px}
+  footer .langsel{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);margin:0}
+  .wxqr{width:138px;border-radius:10px;display:block;margin-top:8px;background:#fff}
+  .wxcap{font-size:.8rem;color:#8f96c9;margin-top:6px}
+  footer .langsel a{color:#b9bce0}
+  .fbar{border-top:1px solid rgba(255,255,255,.12);margin-top:36px;padding-top:20px;
+    display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;font-size:.82rem;color:#8f96c9}
+  /* ---------- 动效 ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  @media(max-width:560px){nav ul .navlink.hideS{display:none}.topbar .tb-r{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>Local AI visual production studio · Your data stays on your PC</span>
+    <span class="tb-r">Harmony v2.0 released</span>
+  </div>
+</div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><span class="mark">h</span><span>hsine <small>PRODUCTS</small></span></a>
+    <ul>
+      <li><a class="navlink hideS" href="#features">Features</a></li>
+      <li><a class="navlink hideS" href="#about">About</a></li>
+      <li><a class="navlink hideS" href="#showcase">Showcase</a></li>
+      <li><a class="navlink hideS" href="#buy">Pricing</a></li>
+      <li><a class="navlink hideS" href="#faq">FAQ</a></li>
+      <li class="langsel"><a href="index.html" class="">中文</a><a href="en.html" class="on">EN</a><a href="ja.html" class="">日本語</a></li>
+      <li><a class="nav-cta" href="#buy">Buy</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge reveal">Local-first · One-time purchase · 14-day free trial</div>
+    <h1 class="reveal">Harmony<br>The Local AI Visual Studio</h1>
+    <p class="lead reveal">A desktop studio for short-video creators: image editing, layers, local AI image and video generation — all on your own computer. Your media never leaves your machine. No queues, no per-use fees.</p>
+    <div class="cta reveal">
+      <a class="btn primary" href="#buy">Buy Pro — ¥129</a>
+      <a class="btn ghost" href="#features">Explore features</a>
+    </div>
+    <div class="frame reveal">
+      <div class="frame-bar"><i></i><i></i><i></i></div>
+      <div class="frame-body"><div class="shot-label">App UI showcase (to be generated)<span>showcase/ui.png · 1600×900</span></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="databand">
+  <div class="wrap">
+    <div class="stat reveal"><b>14 days</b><small>Full-featured free trial</small></div>
+    <div class="stat reveal"><b>One-time</b><small>No subscription</small></div>
+    <div class="stat reveal"><b>2.x</b><small>Free updates included</small></div>
+    <div class="stat reveal"><b>100%</b><small>Runs locally</small></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="block" id="features">
+    <div class="sechead reveal">
+      <div class="kicker">Features</div>
+      <h2 class="sec">One studio, from edit to final cut</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">The whole pipeline on one desk, running locally: edit, generate images, generate video, assemble.</p>
+    </div>
+    <div class="grid cols3">
+      <div class="card reveal"><div class="icon">🖼</div><h3>Image editing & layers</h3><p>Crop, color, masks, adjustment layers and layer styles — everyday editing in one place.</p></div>
+      <div class="card reveal"><div class="icon">✨</div><h3>Local AI image generation</h3><p>Qwen-Image 2.1 runs on your machine: text-to-image and image editing, no uploads, no queues.</p></div>
+      <div class="card reveal"><div class="icon">🎬</div><h3>AI video & production canvas</h3><p>Local MiniMax-H3 video generation; storyboards, references and assembly in one flow.</p></div>
+      <div class="card reveal"><div class="icon">📝</div><h3>Script assistant</h3><p>A writing model that polishes scripts and breaks them into storyboards and executable workflows.</p></div>
+      <div class="card reveal"><div class="icon">📦</div><h3>Templates & content packs</h3><p>Import workflow templates and content packs; save what works and reuse it in one click.</p></div>
+      <div class="card reveal"><div class="icon">🔒</div><h3>Local-first, offline licensing</h3><p>Media and models stay on your PC. Signed offline license — no account, no phone-home.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="sechead left reveal">
+      <div class="kicker">ABOUT</div>
+      <h2 class="sec">About Harmony</h2>
+      <div class="secbar"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-txt reveal">
+        <p>Harmony is a local AI visual production studio built by independent developer hsine. It brings image editing, layers, local AI image generation and batch pipelines into one desktop app, made for photo studios, workshops and short-video creators.</p>
+        <p>It runs the local route on purpose: models and media live on your own computer and it works fully offline. Nothing passes through a third-party server — client photos never leave your shop or your machine.</p>
+        <ul class="afeats">
+          <li>100% local — works fully offline</li>
+          <li>Media and work never upload; data stays on your PC</li>
+          <li>Offline signed license — no account, no phone-home</li>
+          <li>One-time purchase, free updates within 2.x</li>
+        </ul>
+      </div>
+      <div class="infocard reveal">
+        <div class="ihead">Product info</div>
+        <div class="irow"><span>Product</span><b>Harmony</b></div>
+        <div class="irow"><span>Type</span><b>Desktop AI visual production app</b></div>
+        <div class="irow"><span>Platform</span><b>Windows</b></div>
+        <div class="irow"><span>Current version</span><b>v2.0</b></div>
+        <div class="irow"><span>Licensing</span><b>Offline signed file · one computer</b></div>
+        <div class="irow"><span>Developer</span><b>hsine (independent)</b></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="band" id="values">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <div class="kicker">PRINCIPLES</div>
+      <h2 class="sec">What we stand by</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">A tool for production work earns its place by getting a few simple things right, every time.</p>
+    </div>
+    <div class="grid cols3">
+      <div class="card reveal"><div class="icon">🏠</div><h3>Local first</h3><p>Every generation runs on your machine. No cloud dependency — it works offline.</p></div>
+      <div class="card reveal"><div class="icon">🛡</div><h3>Data stays put</h3><p>Media, models and finished work live on your computer and upload nowhere.</p></div>
+      <div class="card reveal"><div class="icon">💎</div><h3>Buy once</h3><p>No subscription, no per-use fees. You buy it, you own it, it keeps working.</p></div>
+      <div class="card reveal"><div class="icon">🔑</div><h3>Offline licensing</h3><p>A signed license file activates offline — no account, no server check-in.</p></div>
+      <div class="card reveal"><div class="icon">🔄</div><h3>Kept current</h3><p>Free updates within the 2.x line, with in-app update checks and one-click upgrades.</p></div>
+      <div class="card reveal"><div class="icon">👋</div><h3>Independent</h3><p>Made and maintained by an independent developer — feedback reaches the person who builds it.</p></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="block" id="history">
+    <div class="sechead reveal">
+      <div class="kicker">HISTORY</div>
+      <h2 class="sec">Product history</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">From naming to release, every step of Harmony answers a real production need.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal"><span class="tl-date">2026.10</span><h3>Named Harmony</h3><p>The local-first product route and commercial plan were set: one-time purchase, offline signed licensing, one computer per license.</p></div>
+      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Batch pipeline shipped</h3><p>Folder-in, finished-out batch processing for photo studios and workshops — failures skip, interrupted jobs resume.</p></div>
+      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Phone remote shipped</h3><p>Scan to connect and drive generation from your phone over the LAN. Data never leaves the shop — the remote is a feature, not a relay.</p></div>
+      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Harmony 2.0 released</h3><p>First formal release, with the in-app auto-update chain complete: check, download and install in one flow.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="showcase">
+    <div class="sechead reveal">
+      <div class="kicker">Showcase</div>
+      <h2 class="sec">What Harmony looks like</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">Real UI screenshots; style samples generated with Harmony's own AI engine.</p>
+    </div>
+    <div class="show-grid">
+      <div class="shot reveal"><div class="shot-label">Style sample 1 · Cyberpunk<span>showcase/style-1.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">Style sample 2 · Ink landscape<span>showcase/style-2.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">Style sample 3 · Minimal geometry<span>showcase/style-3.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">Style sample 4 · Cinematic realism<span>showcase/style-4.png</span></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="buy">
+    <div class="sechead reveal">
+      <div class="kicker">Pricing</div>
+      <h2 class="sec">Simple pricing, buy once</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">Start with a 14-day free trial with every feature open. Buy once only if it earns its place.</p>
+    </div>
+    <div class="grid cols2">
+      <div class="card price-card reveal">
+        <span class="price-badge">LAUNCH OFFER</span>
+        <h3>Harmony Pro</h3>
+        <div class="price-row">
+          <span class="price-now">¥129</span>
+          <span class="price-was">¥199</span>
+          <span class="price-note">One-time purchase (≈ US$18, list ¥199 ≈ US$28)</span>
+        </div>
+        <ul class="price-feats">
+          <li>All generation and editing features unlocked</li>
+          <li>No watermarks on exports</li>
+          <li>Free updates within the 2.x line</li>
+          <li>Offline activation — no account</li>
+          <li>Licensed to one computer; free rebind when you change machines</li>
+          <li>Full refund if your PC is below the minimum spec</li>
+        </ul>
+        <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
+        <a class="btn primary" href="#contact" id="afdian-link">Buy now — ¥129 →</a>
+        <div class="paychips"><span class="paychip">License delivered by email</span><span class="paychip">Within 24 hours</span><span class="paychip">Offline activation</span><span class="paychip">No account needed</span></div>
+        <p class="fineprint">International checkout (Lemon Squeezy / Paddle) is in preparation. Until it opens, the button above takes you to the contact links in the footer — buy directly from me at the same price, with the same 24-hour license delivery.</p>
+      </div>
+      <div class="card reveal">
+        <h3>System requirements</h3>
+        <p>Local AI generation is GPU-hungry: <strong style="color:var(--ink)">minimum RTX 3060 12GB, RTX 3090-class recommended</strong>, 16GB RAM or more suggested. Below the minimum, please don't buy — and if you bought and turn out to be below it, you get a full refund.</p>
+        <p style="margin-top:10px">Model weights are not bundled with the app; they are free to download (see the FAQ).</p>
+      </div>
+    </div>
+    <h3 class="reveal" style="margin:36px 0 16px;font-size:1.08rem">Buying takes three steps</h3>
+    <div class="steps">
+      <div class="step reveal"><div class="num">1</div><h3>Start the free trial</h3><p>Download the Windows installer (public download going live — until then, get the trial package via the contact links below). Every feature is open for 14 days.</p></div>
+      <div class="step reveal"><div class="num">2</div><h3>Purchase</h3><p>International checkout is being set up; for now, contact me below with your email and the machine code shown in the app under System → License — your license is bound to that computer and the file is sent to your email.</p></div>
+      <div class="step reveal"><div class="num">3</div><h3>Import and you're activated</h3><p>Your license file arrives within 24 hours. Import it in Harmony under System → License and you're done.</p></div>
+    </div>
+    <p class="fineprint reveal">Activation is fully offline. Your trial-period work and settings carry over untouched.</p>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="sechead reveal">
+      <div class="kicker">FAQ</div>
+      <h2 class="sec">Questions before you buy</h2>
+      <div class="secbar"></div>
+    </div>
+    <details class="faq reveal">
+      <summary>Can my PC run it?</summary>
+      <p>Local image and video generation lean on your GPU's VRAM. Minimum RTX 3060 12GB (video uses the low-VRAM configuration there), RTX 3090-class recommended, 16GB RAM or more suggested. If your machine is below the minimum, please don't buy; if you already bought and are below it, you get a full refund.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>Where do I get the model weights?</summary>
+      <p>The app bundles no model weights — you supply your own. The GGUF weights for Qwen-Image-2.1 (images) and MiniMax-H3 (video) are free to download from ModelScope, and the app's Settings point at each file. Each model's license stays with its provider; please follow those terms.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>Trial vs. Pro — what's the difference?</summary>
+      <p>You get 14 days with every feature. When the trial ends, the free version disables generation and exports carry a watermark. Importing a license restores everything immediately, watermark-free.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>Does activation need internet or an account?</summary>
+      <p>No. Your license is an offline signed file: import it in the app and activation is complete. No registration, no machine account, no server check-in.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>Windows SmartScreen is blocking the app — what now?</summary>
+      <p>The app is not code-signed yet, so SmartScreen may show a blue warning. Click “More info” → “Run anyway”. Only download from this site or official channels, never from third-party mirrors.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>How many computers can I use it on?</summary>
+      <p>One license binds to one computer: when you order, send me your email and the machine code shown in the app (System → License). If you replace your PC or reinstall Windows, contact me for a free rebind with the new machine code — the old license is revoked at the same time.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>What about refunds?</summary>
+      <p>Full refund if your PC is below the minimum requirements. For anything else, reach me through your order or the contact links and we'll sort it out.</p>
+    </details>
+    <details class="faq reveal">
+      <summary>Any regional limits I should know about?</summary>
+      <p>The app itself is sold worldwide. One caveat: the local video features use MiniMax-H3 weights, whose community license does not permit local deployment in the US, EU, UK or South Korea. Image features are unaffected everywhere.</p>
+    </details>
+  </section>
+
+</main>
+
+<div class="ctaband">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Try everything free for 14 days</h2>
+      <p>Every feature is open during the trial, and your work and settings carry over when you activate.</p>
+    </div>
+    <a class="btn primary reveal" href="#buy">Buy Pro — ¥129</a>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand"><span class="mark">h</span><span>hsine</span></div>
+        <p class="fabout">Local AI visual production tools that run entirely on your own machine. Built and maintained by hsine.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#showcase">Showcase</a></li>
+          <li><a href="#buy">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://github.com/tanghsine/tanghsine.github.io/releases/download/harmony/Harmony-qwen-examples.zip">Sample pack download</a></li>
+          <li><a href="https://github.com/tanghsine/tanghsine.github.io/releases/tag/harmony">Releases</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://x.com/tanghsine" target="_blank" rel="noopener">𝕏 @tanghsine</a></li>
+          <li><img class="wxqr" src="assets/wechat-qr.jpg" alt="WeChat — scan to add"><div class="wxcap">WeChat — scan to add</div></li>
+          <li><span style="font-size:.88rem">Binance Square @zgybw</span></li>
+          <li><span class="langsel"><a href="index.html" class="">中文</a><a href="en.html" class="on">EN</a><a href="ja.html" class="">日本語</a></span></li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">This is hsine's product site. Harmony is the product currently on sale; more products will follow. Purchases, feedback and collaborations: use the contact links above.</p>
+    <div class="fbar">
+      <span>© <span id="year">2026</span> hsine</span>
+      <span>Harmony v2.0 released</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+
+</body>
+</html>
