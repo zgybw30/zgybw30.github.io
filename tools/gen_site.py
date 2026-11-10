@@ -263,7 +263,7 @@ EXTRA = {
     F_ABOUT_P="本地 AI 视觉生产工具，全部在你自己的电脑上运行。由 hsine 独立制作与维护。",
     F_COL_P="产品", F_COL_R="资源", F_COL_C="联系",
     F_RES1="示例包下载", F_RES2="版本发布",
-    F_WECHAT="微信 · 一人智创（扫码添加）",
+    F_WECHAT="微信 · zgybw（扫码添加）",
 ),
 'en.html': dict(
     TOPBAR_TXT="Local AI visual production studio · Your data stays on your PC",
