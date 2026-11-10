@@ -14,9 +14,11 @@
     --line:#e5e7f0; --navy:#170057; --navy2:#0d0038; --blue:#2575fc; --cyan:#00c5ff;
     --grad:linear-gradient(92deg,#2575fc 0%,#00c5ff 100%);
     --grad-dark:linear-gradient(125deg,#0d0038 0%,#170057 52%,#123a9e 130%);
-    --radius:14px; --shadow:0 10px 34px rgba(23,0,87,.10);
+    --radius:14px; --shadow:0 10px 34px rgba(23,0,87,.10); --shadow-lg:0 24px 60px rgba(23,0,87,.16);
+    --ease:cubic-bezier(.22,.8,.3,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
+  ::selection{background:#bcd9ff;color:var(--navy2)}
   html{scroll-behavior:smooth}
   body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
     background:var(--bg); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased}
@@ -40,11 +42,17 @@
   .langsel a{text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap}
   .langsel a.on{background:var(--grad);color:#fff}
   .nav-cta{text-decoration:none;background:var(--grad);color:#fff;font-weight:700;font-size:.88rem;
-    padding:9px 19px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(37,117,252,.30)}
+    padding:9px 19px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(37,117,252,.30);transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,117,252,.4)}
   .paychips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
   .paychip{font-size:.76rem;color:var(--blue);background:#eaf2ff;border:1px solid #c9dcff;border-radius:999px;padding:4px 11px;font-weight:600}
   /* ---------- Hero ---------- */
-  .hero{background:var(--grad-dark);color:#fff;padding:78px 0 64px;position:relative;overflow:hidden}
+  .hero{background:var(--grad-dark);color:#fff;padding:86px 0 70px;position:relative;overflow:hidden}
+  .hero-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 75%)}
   .hero::before{content:"";position:absolute;inset:auto -10% -55% auto;width:720px;height:720px;border-radius:50%;
     background:radial-gradient(closest-side,rgba(0,197,255,.28),transparent 70%);pointer-events:none}
   .hero::after{content:"";position:absolute;inset:-40% auto auto -12%;width:560px;height:560px;border-radius:50%;
@@ -52,26 +60,29 @@
   .hero .wrap{position:relative;z-index:1;text-align:center}
   .badge{display:inline-block;font-size:.78rem;color:#a8dcff;background:rgba(0,197,255,.12);
     border:1px solid rgba(0,197,255,.4);padding:6px 15px;border-radius:999px;margin-bottom:24px;font-weight:600}
-  .hero h1{font-size:clamp(2.3rem,6.4vw,3.8rem);line-height:1.22;font-weight:800;letter-spacing:.01em;margin-bottom:20px}
+  .hero h1{font-size:clamp(2.35rem,6.4vw,3.9rem);line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:20px}
   .hero h1 .hl{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p.lead{color:#c6c9e8;font-size:clamp(1rem,2.6vw,1.15rem);max-width:700px;margin:0 auto 34px}
   .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
   .btn{display:inline-block;text-decoration:none;font-weight:700;font-size:.96rem;
     padding:14px 30px;border-radius:11px;transition:transform .15s ease,box-shadow .15s ease}
   .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 26px rgba(0,120,255,.35)}
-  .btn.primary:hover{transform:translateY(-2px)}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,120,255,.45)}
   .btn.ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.35)}
   .btn.ghost:hover{border-color:var(--cyan)}
   /* ---------- 关键数据带 ---------- */
-  .databand{background:var(--grad);color:#fff}
-  .databand .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:30px 24px}
-  @media(min-width:760px){.databand .wrap{grid-template-columns:repeat(4,1fr)}}
-  .stat{text-align:center;padding:6px 4px}
-  .stat b{font-size:1.9rem;display:block;font-weight:800;line-height:1.25}
-  .stat small{color:rgba(255,255,255,.85);font-size:.84rem}
+  .databand{background:#fff;border-bottom:1px solid var(--line);position:relative}
+  .databand::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+  .databand .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 8px;padding:38px 24px 34px}
+  @media(min-width:760px){.databand .wrap{grid-template-columns:repeat(4,1fr)}
+    .stat{border-left:1px solid var(--line)} .stat:first-child{border-left:none}}
+  .stat{text-align:center;padding:4px 6px}
+  .stat b{font-size:2.2rem;display:block;font-weight:800;line-height:1.2;letter-spacing:-.01em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+  .stat small{color:var(--muted);font-size:.85rem;font-weight:600;letter-spacing:.06em}
   /* ---------- 产品截图框 ---------- */
-  .frame{margin:52px auto 0;max-width:920px;background:#10101c;border:1px solid rgba(255,255,255,.16);
-    border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:left}
+  .frame{margin:56px auto 0;max-width:920px;background:#10101c;border:1px solid rgba(0,197,255,.32);
+    border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 6px rgba(0,197,255,.06),0 0 90px rgba(37,117,252,.25);text-align:left}
   .frame-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.1);background:#17172a}
   .frame-bar i{width:11px;height:11px;border-radius:50%;background:#33334d;display:block}
   .frame-bar i:first-child{background:var(--cyan)}
@@ -80,10 +91,15 @@
   .frame-body .shot-label{font-weight:700;font-size:1.02rem}
   .frame-body .shot-label span{display:block;font-weight:400;font-size:.84rem;color:#9aa0c3;margin-top:8px}
   /* ---------- 通用版块 ---------- */
-  section.block{padding:78px 0 10px}
+  section.block{padding:84px 0 10px}
   section.band{background:var(--bg2);margin-top:64px;padding:70px 0 64px}
   .sechead{text-align:center;margin-bottom:40px}
-  .kicker{font-size:.76rem;font-weight:700;color:var(--blue);letter-spacing:.22em;margin-bottom:10px;text-transform:uppercase}
+  .kicker{font-size:.76rem;font-weight:800;color:var(--blue);letter-spacing:.24em;margin-bottom:12px;text-transform:uppercase;
+    display:flex;align-items:center;gap:14px;justify-content:center}
+  .kicker::before,.kicker::after{content:"";height:1px;width:36px;background:linear-gradient(90deg,transparent,#9db9f5)}
+  .kicker::after{background:linear-gradient(90deg,#9db9f5,transparent)}
+  .sechead.left .kicker{justify-content:flex-start}
+  .sechead.left .kicker::before{display:none}
   h2.sec{font-size:clamp(1.55rem,4.4vw,2.15rem);font-weight:800;letter-spacing:.01em}
   .secbar{width:44px;height:4px;border-radius:2px;background:var(--grad);margin:16px auto 0}
   p.secdesc{color:var(--muted);max-width:680px;margin:14px auto 0;text-align:center}
@@ -92,11 +108,14 @@
   .sechead.left .secbar{margin-left:0}
   .grid{display:grid;gap:18px}
   @media(min-width:640px){.grid.cols2{grid-template-columns:1fr 1fr}.grid.cols3{grid-template-columns:1fr 1fr 1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:27px;
-    box-shadow:0 2px 10px rgba(23,0,87,.04);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#c9dcff}
-  .card .icon{width:46px;height:46px;border-radius:12px;background:#eaf2ff;border:1px solid #c9dcff;
-    display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:15px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;
+    box-shadow:0 2px 10px rgba(23,0,87,.04);transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease)}
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);
+    transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:#c9dcff}
+  .card:hover::before{transform:scaleX(1)}
+  .card .icon{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#eaf2ff,#e2f6ff);border:1px solid #d3e4ff;
+    display:flex;align-items:center;justify-content:center;font-size:1.32rem;margin-bottom:16px;box-shadow:inset 0 1px 0 #fff}
   .card h3{font-size:1.05rem;margin-bottom:7px}
   .card p{color:var(--muted);font-size:.92rem}
   /* ---------- 关于: 左文右信息表 ---------- */
@@ -118,7 +137,7 @@
   .tl-item{position:relative;padding:0 0 30px 18px}
   .tl-item:last-child{padding-bottom:4px}
   .tl-item::before{content:"";position:absolute;left:-26px;top:7px;width:14px;height:14px;border-radius:50%;
-    background:#fff;border:3px solid var(--blue)}
+    background:#fff;border:3px solid var(--blue);box-shadow:0 0 0 5px #eaf2ff}
   .tl-date{display:inline-block;font-weight:800;color:var(--blue);background:#eaf2ff;border:1px solid #c9dcff;
     border-radius:999px;padding:2px 12px;font-size:.8rem;margin-bottom:7px}
   .tl-item h3{font-size:1.02rem;margin-bottom:4px}
@@ -131,11 +150,15 @@
   .shot .shot-label{font-weight:700;font-size:.98rem}
   .shot .shot-label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted);margin-top:7px}
   /* ---------- 价格 ---------- */
-  .price-card{position:relative;border-color:#bcd4ff;background:linear-gradient(180deg,#f4f8ff,#ffffff)}
+  .price-card{overflow:visible}
+  .price-card::before{border-radius:14px 14px 0 0}
+  .price-card{position:relative;border:1px solid transparent;
+    background:linear-gradient(180deg,#f6faff,#ffffff) padding-box,var(--grad) border-box;
+    box-shadow:0 18px 44px rgba(37,117,252,.14)}
   .price-badge{position:absolute;top:-13px;left:26px;background:var(--grad);color:#fff;
     font-size:.74rem;font-weight:800;padding:4px 13px;border-radius:999px;letter-spacing:.05em}
   .price-row{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;margin:8px 0 12px}
-  .price-now{font-size:2.5rem;font-weight:800;background:var(--grad);
+  .price-now{font-size:3rem;font-weight:800;letter-spacing:-.02em;background:var(--grad);
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .price-was{color:var(--muted);text-decoration:line-through;font-size:1.05rem}
   .price-note{color:var(--muted);font-size:.88rem}
@@ -152,10 +175,16 @@
   .fineprint{color:var(--muted);font-size:.86rem;margin-top:18px}
   /* ---------- FAQ ---------- */
   details.faq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px 21px;margin-bottom:12px}
-  details.faq summary{cursor:pointer;font-weight:700;font-size:.97rem}
+  details.faq summary{cursor:pointer;font-weight:700;font-size:.97rem;transition:color .15s ease}
+  details.faq summary:hover{color:var(--blue)}
+  details.faq[open ]{border-color:#bcd4ff;box-shadow:0 6px 22px rgba(23,0,87,.06)}
+  details.faq[open ] summary{color:var(--blue)}
   details.faq p{color:var(--muted);font-size:.92rem;margin-top:10px}
   /* ---------- CTA 带 ---------- */
-  .ctaband{margin-top:78px;background:var(--grad-dark);color:#fff}
+  .ctaband{margin-top:84px;background:var(--grad-dark);color:#fff;position:relative;overflow:hidden}
+  .ctaband::before{content:"";position:absolute;inset:auto -8% -70% auto;width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(0,197,255,.25),transparent 70%);pointer-events:none}
+  .ctaband .wrap{position:relative;z-index:1}
   .ctaband .wrap{padding:52px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
   .ctaband h2{font-size:clamp(1.35rem,3.6vw,1.8rem);font-weight:800}
   .ctaband p{color:#c6c9e8;font-size:.95rem;margin-top:6px}
@@ -197,7 +226,7 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#"><span class="mark">h</span><span>hsine <small>产品站</small></span></a>
+    <a class="brand" href="#"><span class="mark">z</span><span>zgybw <small>产品站</small></span></a>
     <ul>
       <li><a class="navlink hideS" href="#features">功能</a></li>
       <li><a class="navlink hideS" href="#about">关于</a></li>
@@ -211,12 +240,13 @@
 </nav>
 
 <header class="hero">
+  <div class="hero-grid"></div>
   <div class="wrap">
     <div class="badge reveal">本地优先 · 一次买断 · 14 天免费试用</div>
     <h1 class="reveal">Harmony<br>本地 AI 视觉生产工作台</h1>
     <p class="lead reveal">为短视频创作者打造的桌面工作台：图像编辑、图层、本地 AI 生图与 AI 视频，全在你自己的电脑上完成。素材不出本机，不排队，不按量付费。</p>
     <div class="cta reveal">
-      <a class="btn primary" href="#buy">¥129 购买专业版</a>
+      <a class="btn primary" href="#buy">¥269 购买专业版</a>
       <a class="btn ghost" href="#features">了解功能</a>
     </div>
     <div class="frame reveal">
@@ -262,7 +292,7 @@
     </div>
     <div class="about-grid">
       <div class="about-txt reveal">
-        <p>Harmony 是由独立开发者 hsine 打造的本地 AI 视觉生产工作台：把图像编辑、图层、本地 AI 生图与批量流水线收拢到一个桌面软件里，为照相馆、工作室与短视频创作者的生产场景而做。</p>
+        <p>Harmony 是由独立开发者 zgybw 打造的本地 AI 视觉生产工作台：把图像编辑、图层、本地 AI 生图与批量流水线收拢到一个桌面软件里，为照相馆、工作室与短视频创作者的生产场景而做。</p>
         <p>它坚持本地运行的路线：模型与素材都在你自己的电脑上，断网可用；生成全程不经过任何第三方服务器，客户照片不出店、不出本机。</p>
         <ul class="afeats">
           <li>100% 本地运行，断网可用</li>
@@ -278,7 +308,7 @@
         <div class="irow"><span>运行平台</span><b>Windows</b></div>
         <div class="irow"><span>当前版本</span><b>v2.0</b></div>
         <div class="irow"><span>授权方式</span><b>离线签名 · 绑定一台电脑</b></div>
-        <div class="irow"><span>开发者</span><b>hsine（独立开发）</b></div>
+        <div class="irow"><span>开发者</span><b>zgybw（独立开发）</b></div>
       </div>
     </div>
   </section>
@@ -348,8 +378,8 @@
         <span class="price-badge">首发价</span>
         <h3>Harmony 专业版</h3>
         <div class="price-row">
-          <span class="price-now">¥129</span>
-          <span class="price-was">¥199</span>
+          <span class="price-now">¥269</span>
+          <span class="price-was">¥399</span>
           <span class="price-note">一次性买断 · 无订阅</span>
         </div>
         <ul class="price-feats">
@@ -358,16 +388,15 @@
           <li>2.x 版本内免费更新</li>
           <li>离线激活，不注册账号</li>
           <li>授权绑定一台电脑，换机免费换绑</li>
-          <li>达不到最低配置，全额退款</li>
         </ul>
         <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
-        <a class="btn primary" href="#contact" id="afdian-link">立即购买 ¥129 →</a>
+        <a class="btn primary" href="#contact" id="afdian-link">立即购买 ¥269 →</a>
         <div class="paychips"><span class="paychip">微信支付</span><span class="paychip">支付宝</span><span class="paychip">授权文件邮箱交付</span><span class="paychip">24 小时内发码</span><span class="paychip">离线激活</span></div>
         <p class="fineprint">付款走爱发电（支持微信 / 支付宝）。店铺正在上架中：上架前点上方按钮会跳到页脚联系区，联系我转账购买即可——价格不变，同样 24 小时内发授权文件。</p>
       </div>
       <div class="card reveal">
         <h3>配置要求</h3>
-        <p>本地 AI 生成吃显卡：<strong style="color:var(--ink)">最低 RTX 3060 12GB 起步，推荐 RTX 3090 级别</strong>，内存建议 16GB 以上。达不到最低配置请先别买；已购买发现达不到的，全额退款。</p>
+        <p>本地 AI 生成吃显卡：<strong style="color:var(--ink)">最低 RTX 3060 12GB 起步，推荐 RTX 3090 级别</strong>，内存建议 16GB 以上。达不到最低配置请先别买。</p>
         <p style="margin-top:10px">模型文件需自备（软件不内置权重），可在魔搭社区免费下载，FAQ 里有说明。</p>
       </div>
     </div>
@@ -388,7 +417,7 @@
     </div>
     <details class="faq reveal">
       <summary>我的电脑能跑吗？</summary>
-      <p>本地图像与视频生成主要吃显卡显存。最低 RTX 3060 12GB（视频功能按低显存方式使用），推荐 RTX 3090 级别，内存建议 16GB 以上。达不到最低配置的请先不要购买；已购买后确认达不到的，全额退款。</p>
+      <p>本地图像与视频生成主要吃显卡显存。最低 RTX 3060 12GB（视频功能按低显存方式使用），推荐 RTX 3090 级别，内存建议 16GB 以上。达不到最低配置的请先不要购买。</p>
     </details>
     <details class="faq reveal">
       <summary>模型文件从哪里下载？</summary>
@@ -412,7 +441,7 @@
     </details>
     <details class="faq reveal">
       <summary>可以退款吗？</summary>
-      <p>电脑达不到最低配置的，全额退款。其他情况通过爱发电订单或页脚联系方式找我处理。</p>
+      <p>通过爱发电订单或页脚联系方式找我处理。</p>
     </details>
   </section>
 
@@ -424,7 +453,7 @@
       <h2>先免费试用 14 天，再决定买不买</h2>
       <p>全功能开放试用，试用期间的作品与设置在激活后完整保留。</p>
     </div>
-    <a class="btn primary reveal" href="#buy">¥129 购买专业版</a>
+    <a class="btn primary reveal" href="#buy">¥269 购买专业版</a>
   </div>
 </div>
 
@@ -432,8 +461,8 @@
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <div class="fbrand"><span class="mark">h</span><span>hsine</span></div>
-        <p class="fabout">本地 AI 视觉生产工具，全部在你自己的电脑上运行。由 hsine 独立制作与维护。</p>
+        <div class="fbrand"><span class="mark">z</span><span>zgybw</span></div>
+        <p class="fabout">本地 AI 视觉生产工具，全部在你自己的电脑上运行。由 zgybw 独立制作与维护。</p>
       </div>
       <div>
         <h4>产品</h4>
@@ -462,9 +491,9 @@
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">这里是 hsine 的产品站，Harmony 是目前在售的产品，后续会有更多产品加入。购买、反馈与合作请通过上方联系方式。</p>
+    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">这里是 zgybw 的产品站，Harmony 是目前在售的产品，后续会有更多产品加入。购买、反馈与合作请通过上方联系方式。</p>
     <div class="fbar">
-      <span>© <span id="year">2026</span> hsine</span>
+      <span>© <span id="year">2026</span> zgybw</span>
       <span>Harmony v2.0 已发布</span>
     </div>
   </div>
