@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Harmony · ローカル AI 映像制作スタジオ</title>
-<meta name="description" content="Harmony：写真館・工房・クリエイター向けデスクトップスタジオ。画像編集、レイヤー、ローカル AI 画像生成とバッチパイプライン。7日間全機能無料トライアル、買い切り。">
+<title>zgybw · ローカル優先のデスクトップソフト</title>
+<meta name="description" content="zgybw の製品サイト：ローカル AI 映像制作スタジオ Harmony とデスクトップ ToDo ウィジェット拾光待辦。どちらも自分の PC だけで動作します。">
 <link rel="alternate" hreflang="zh-CN" href="index.html">
 <link rel="alternate" hreflang="en" href="en.html">
 <link rel="alternate" hreflang="ja" href="ja.html">
@@ -214,28 +214,49 @@
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
   @media(max-width:560px){nav ul .navlink.hideS{display:none}.topbar .tb-r{display:none}}
+  /* ---------- 面包屑 ---------- */
+  .crumb{background:#f5f6fa;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+  .crumb .wrap{padding:10px 24px}
+  .crumb a{color:var(--blue);text-decoration:none;font-weight:600}
+  .crumb a:hover{text-decoration:underline}
+  /* ---------- 产品卡 ---------- */
+  .pcard{padding:0;display:flex;flex-direction:column}
+  .pcard .pvisual{height:200px;overflow:hidden;background:var(--grad-dark);display:flex;align-items:center;justify-content:center;position:relative}
+  .pcard .pvisual img.cover{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .pcard .pvisual img.appicon{width:100px;height:100px;border-radius:25px;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+  .pcard .pvisual .plus{font-size:3rem;font-weight:300;color:#9aa0c3}
+  .pcard .pbody{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+  .pcard h3{font-size:1.22rem;margin-bottom:2px}
+  .pcard .ptag{color:var(--blue);font-weight:700;font-size:.86rem;margin-bottom:10px}
+  .pcard p.pdesc{color:var(--muted);font-size:.92rem;flex:1}
+  .pcard .ptags{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
+  .pcard .btn{align-self:flex-start;padding:12px 24px;font-size:.9rem}
+  .pcard.more{background:#fafbfe;border-style:dashed}
+  .pcard.more .pvisual{background:#eef0f7}
+  .pcard.more:hover{transform:none;box-shadow:0 2px 10px rgba(23,0,87,.04)}
+  /* ---------- Hero 图标框 ---------- */
+  .frame-body img.hero-icon{width:116px;height:116px;border-radius:28px;box-shadow:0 16px 40px rgba(0,0,0,.5);margin-bottom:16px}
+
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="wrap">
-    <span>ローカル AI 映像制作スタジオ · データは PC の外に出ません</span>
-    <span class="tb-r">Harmony v2.0 リリース</span>
+    <span>zgybw の製品サイト · ローカル優先 · データは PC の外に出ません</span>
+    <span class="tb-r">Harmony v2.0 · 拾光待辦 v1.5</span>
   </div>
 </div>
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#"><span class="mark">z</span><span>zgybw <small>製品</small></span></a>
+    <a class="brand" href="ja.html"><span class="mark">z</span><span>zgybw <small>製品</small></span></a>
     <ul>
-      <li><a class="navlink hideS" href="#features">機能</a></li>
-      <li><a class="navlink hideS" href="#about">概要</a></li>
-      <li><a class="navlink hideS" href="#showcase">ショーケース</a></li>
-      <li><a class="navlink hideS" href="#buy">価格</a></li>
-      <li><a class="navlink hideS" href="#faq">FAQ</a></li>
+      <li><a class="navlink hideS" href="#products">製品</a></li>
+      <li><a class="navlink hideS" href="#values">こだわり</a></li>
+      <li><a class="navlink hideS" href="#contact">連絡先</a></li>
       <li class="langsel"><a href="index.html" class="">中文</a><a href="en.html" class="">EN</a><a href="ja.html" class="on">日本語</a></li>
-      <li><a class="nav-cta" href="#buy">購入</a></li>
+      <li><a class="nav-cta" href="#products">製品を見る</a></li>
     </ul>
   </div>
 </nav>
@@ -243,73 +264,63 @@
 <header class="hero">
   <div class="hero-grid"></div>
   <div class="wrap">
-    <div class="badge reveal">ローカル優先 · 買い切り · 7日間無料トライアル</div>
-    <h1 class="reveal">Harmony<br>ローカル AI 映像制作スタジオ</h1>
-    <p class="lead reveal">写真館・工房・クリエイターのためのデスクトップスタジオ：画像編集、レイヤー、ローカル AI 画像生成とバッチパイプラインを、すべて自分の PC の中で。素材は外に出ず、待ち行列も従量課金もありません。</p>
+    <div class="badge reveal">独立開発 · ローカル優先 · 買い切り</div>
+    <h1 class="reveal">良い道具は、<span class="hl">自分の PC で動く</span></h1>
+    <p class="lead reveal">独立開発者の zgybw です。私のソフトはすべて一つの方針で作っています：ローカル優先。データは PC の外に出ず、クラウドに依存せず、従量課金もありません。現在 2 製品、ぜひご覧ください。</p>
     <div class="cta reveal">
-      <a class="btn primary" href="#buy">Pro を購入 — ¥269</a>
-      <a class="btn ghost" href="#features">機能を見る</a>
-    </div>
-    <div class="frame reveal">
-      <div class="frame-bar"><i></i><i></i><i></i></div>
-      <img class="frame-img" src="assets/ui.png" alt="Harmony 软件界面">
+      <a class="btn primary" href="#products">製品を見る</a>
+      <a class="btn ghost" href="#contact">連絡する</a>
     </div>
   </div>
 </header>
 
 <div class="databand">
   <div class="wrap">
-    <div class="stat reveal"><b>7日間</b><small>全機能無料トライアル</small></div>
-    <div class="stat reveal"><b>買い切り</b><small>サブスクなし</small></div>
-    <div class="stat reveal"><b>2.x</b><small>無料アップデート込み</small></div>
+    <div class="stat reveal"><b>2</b><small>デスクトップ製品</small></div>
     <div class="stat reveal"><b>100%</b><small>ローカル実行</small></div>
+    <div class="stat reveal"><b>買い切り</b><small>サブスクなし · 従量課金なし</small></div>
+    <div class="stat reveal"><b>1人</b><small>独立開発 · 声は直接開発者へ</small></div>
   </div>
 </div>
 
 <main class="wrap">
 
-  <section class="block" id="features">
+  <section class="block" id="products">
     <div class="sechead reveal">
-      <div class="kicker">機能</div>
-      <h2 class="sec">一枚の仕上げから一括納品まで、一つのスタジオで</h2>
+      <div class="kicker">PRODUCTS</div>
+      <h2 class="sec">製品</h2>
       <div class="secbar"></div>
-      <p class="secdesc">一枚のレタッチ、AI 画像生成、バッチパイプラインまで。作業の流れをすべてローカルで完結させます。</p>
+      <p class="secdesc">2つの製品、それぞれ一つのことをしっかりやります。詳しくは各製品ページへ。</p>
     </div>
     <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🖼</div><h3>画像編集とレイヤー</h3><p>切り抜き、色調整、マスク、調整レイヤーとレイヤースタイル。日常の編集はここで完結。</p></div>
-      <div class="card reveal"><div class="icon">✨</div><h3>ローカル AI 画像生成</h3><p>Qwen-Image 2.1 を自分の PC で実行。テキストから画像も、画像の編集も。アップロードも待ち行列もなし。</p></div>
-      <div class="card reveal"><div class="icon">🎬</div><h3>バッチパイプライン</h3><p>フォルダを入れるだけで、修復・色付け・顔修復・超解像・リサイズ・透かしをレシピ通りに一括実行。失敗はスキップ、途中から再開も可能。夜に回して朝に回収できます。</p></div>
-      <div class="card reveal"><div class="icon">📝</div><h3>写真館ワンクリック</h3><p>古い写真の修復、家族写真の復元、横顔からの証明写真：写真を選んでワンクリック。白・青・赤の背景と規格サイズを用意済み。</p></div>
-      <div class="card reveal"><div class="icon">📦</div><h3>テンプレートとコンテンツパック</h3><p>ワークフローテンプレートとパックをインポート。うまくいった流れを保存して再利用。</p></div>
-      <div class="card reveal"><div class="icon">🔒</div><h3>ローカル優先 · オフライン認証</h3><p>素材もモデルも PC の中。署名付きオフラインライセンスで、アカウント登録もサーバー確認も不要。</p></div>
-    </div>
-  </section>
-
-  <section class="block" id="about">
-    <div class="sechead left reveal">
-      <div class="kicker">ABOUT</div>
-      <h2 class="sec">Harmony について</h2>
-      <div class="secbar"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-txt reveal">
-        <p>Harmony は独立開発者 zgybw が作るローカル AI 映像制作スタジオです。画像編集、レイヤー、ローカル AI 画像生成、バッチパイプラインを一つのデスクトップアプリに集約し、写真館・工房・短編動画クリエイターの制作現場のために設計しました。</p>
-        <p>ローカル実行にこだわります。モデルも素材も自分の PC の中にあり、オフラインで動作します。生成が第三者のサーバーを経由することはなく、お客様の写真が店の外に出ることもありません。</p>
-        <ul class="afeats">
-          <li>100% ローカル実行、オフラインで利用可能</li>
-          <li>素材と作品はアップロードされず、データは PC 内に留まります</li>
-          <li>オフライン署名ライセンス、アカウント登録・サーバー確認なし</li>
-          <li>買い切り、2.x の間は無料アップデート</li>
-        </ul>
+      <div class="card pcard reveal">
+        <div class="pvisual"><img class="cover" src="assets/ui.png" alt="Harmony"></div>
+        <div class="pbody">
+          <h3>Harmony</h3>
+          <div class="ptag">ローカル AI 映像制作スタジオ</div>
+          <p class="pdesc">写真館・工房・クリエイター向け：画像編集、レイヤー、ローカル AI 画像生成、バッチパイプラインを、すべて自分の PC の中で。</p>
+          <div class="ptags"><span class="paychip">買い切り ¥269</span><span class="paychip">7日間無料トライアル</span><span class="paychip">Windows</span></div>
+          <a class="btn primary" href="harmony-ja.html">詳しく見る →</a>
+        </div>
       </div>
-      <div class="infocard reveal">
-        <div class="ihead">製品情報</div>
-        <div class="irow"><span>製品名</span><b>Harmony</b></div>
-        <div class="irow"><span>種別</span><b>デスクトップ AI 映像制作ソフト</b></div>
-        <div class="irow"><span>対応 OS</span><b>Windows</b></div>
-        <div class="irow"><span>現在のバージョン</span><b>v2.0</b></div>
-        <div class="irow"><span>認証方式</span><b>オフライン署名 · PC 1台に紐付け</b></div>
-        <div class="irow"><span>開発者</span><b>zgybw（独立開発）</b></div>
+      <div class="card pcard reveal">
+        <div class="pvisual"><img class="appicon" src="assets/todo-icon.png" alt="拾光待辦"></div>
+        <div class="pbody">
+          <h3>拾光待辦</h3>
+          <div class="ptag">デスクトップ ToDo ウィジェット</div>
+          <p class="pdesc">デスクトップに貼る ToDo リスト：今日の予定、期限リマインダー、自然言語での日時入力、週次まとめ。データはローカルのみ。</p>
+          <div class="ptags"><span class="paychip">無料</span><span class="paychip">Windows</span><span class="paychip">軽量ウィジェット</span></div>
+          <a class="btn primary" href="todo-ja.html">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="card pcard more reveal">
+        <div class="pvisual"><span class="plus">＋</span></div>
+        <div class="pbody">
+          <h3>今後さらに追加</h3>
+          <div class="ptag">準備中</div>
+          <p class="pdesc">次の製品を準備中です。まずはこの 2 つをしっかり仕上げます。</p>
+          <div class="ptags"><span class="paychip">お楽しみに</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -322,139 +333,29 @@
       <div class="kicker">PRINCIPLES</div>
       <h2 class="sec">私たちのこだわり</h2>
       <div class="secbar"></div>
-      <p class="secdesc">制作現場の道具は、いくつかのシンプルな約束を守り続けることで信頼を得ます。</p>
+      <p class="secdesc">毎日使う道具は、いくつかのシンプルな約束を守り続けることで信頼を得ます。</p>
     </div>
     <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🏠</div><h3>ローカル優先</h3><p>すべての生成は自分の PC で完結。クラウドに依存せず、オフラインでも働きます。</p></div>
-      <div class="card reveal"><div class="icon">🛡</div><h3>データは外に出ない</h3><p>素材・モデル・完成品はすべてあなたの PC の中。どこにもアップロードしません。</p></div>
-      <div class="card reveal"><div class="icon">💎</div><h3>買い切り</h3><p>サブスクも従量課金もありません。買えばずっと使えます。</p></div>
-      <div class="card reveal"><div class="icon">🔑</div><h3>オフライン認証</h3><p>署名付きライセンスファイルでオフライン認証。登録もサーバー確認も不要です。</p></div>
-      <div class="card reveal"><div class="icon">🔄</div><h3>継続アップデート</h3><p>2.x の間は無料アップデート。アプリ内の確認からワンクリックで更新できます。</p></div>
+      <div class="card reveal"><div class="icon">🏠</div><h3>ローカル優先</h3><p>すべての製品は自分の PC で動作。クラウドに依存せず、オフラインでも働きます。</p></div>
+      <div class="card reveal"><div class="icon">🛡</div><h3>データは外に出ない</h3><p>素材も ToDo も完成品も、すべてあなたの PC の中。どこにもアップロードしません。</p></div>
+      <div class="card reveal"><div class="icon">💎</div><h3>買い切り</h3><p>有料製品は買い切り。サブスクも従量課金もありません。</p></div>
+      <div class="card reveal"><div class="icon">🔑</div><h3>オフライン認証</h3><p>有料製品は署名付きライセンスファイルでオフライン認証。登録もサーバー確認も不要です。</p></div>
+      <div class="card reveal"><div class="icon">🔄</div><h3>継続アップデート</h3><p>製品は継続的に保守・更新され、ご意見は直接開発者に届きます。</p></div>
       <div class="card reveal"><div class="icon">👋</div><h3>独立開発</h3><p>独立開発者が制作・保守します。フィードバックは本人に直接届きます。</p></div>
     </div>
   </div>
 </section>
 
-<main class="wrap">
-
-  <section class="block" id="history">
-    <div class="sechead reveal">
-      <div class="kicker">HISTORY</div>
-      <h2 class="sec">製品の歩み</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">命名から正式リリースまで、Harmony の一歩一歩は実際の制作ニーズに応えたものです。</p>
-    </div>
-    <div class="timeline">
-      <div class="tl-item reveal"><span class="tl-date">2026.10</span><h3>Harmony と命名</h3><p>ローカル優先の製品方針と商用プランを確定：買い切り、オフライン署名ライセンス、PC 1台への紐付け。</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>バッチパイプライン公開</h3><p>写真館・工房向けのバッチ処理：フォルダを入れて完成品を出す。失敗はスキップ、中断したジョブは再開できます。</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>スマホリモコン公開</h3><p>QR コードで PC に接続し、LAN 内でスマホから生成を操作。データは店の外に出ません。</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Harmony 2.0 正式リリース</h3><p>初の正式版を公開。アプリ内自動アップデート（確認・ダウンロード・インストール）まで一貫して動作します。</p></div>
-    </div>
-  </section>
-
-  <section class="block" id="showcase">
-    <div class="sechead reveal">
-      <div class="kicker">ショーケース</div>
-      <h2 class="sec">Harmony の画面</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">実際の UI スクリーンショットと、Harmony 自身の AI で生成した作例を掲載予定です。</p>
-    </div>
-    <div class="show-grid">
-      <div class="shot reveal"><div class="shot-label">作例 1 · サイバーパンク<span>showcase/style-1.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">作例 2 · 水墨山水<span>showcase/style-2.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">作例 3 · ミニマルジオメトリ<span>showcase/style-3.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">作例 4 · シネマティック写実<span>showcase/style-4.png</span></div></div>
-    </div>
-  </section>
-
-  <section class="block" id="buy">
-    <div class="sechead reveal">
-      <div class="kicker">価格</div>
-      <h2 class="sec">シンプルな買い切り価格</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">まずは 7日間、全機能を無料でお試しください。納得できたら買い切りでどうぞ。</p>
-    </div>
-    <div class="grid cols2">
-      <div class="card price-card reveal">
-        <span class="price-badge">発売記念</span>
-        <h3>Harmony Pro</h3>
-        <div class="price-row">
-          <span class="price-now">¥269</span>
-          <span class="price-was">¥399</span>
-          <span class="price-note">買い切り（中国価格 ¥269／約 US$37、定価 ¥399）</span>
-        </div>
-        <ul class="price-feats">
-          <li>全画像生成・編集機能を解放</li>
-          <li>書き出しにウォーターマークなし</li>
-          <li>2.x の間は無料アップデート</li>
-          <li>オフライン認証、アカウント不要</li>
-          <li>ライセンスは PC 1台に紐付け、買い替え時は無料で付け替え</li>
-        </ul>
-        <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
-        <a class="btn primary" href="#contact" id="afdian-link">今すぐ購入 — ¥269 →</a>
-        <div class="paychips"><span class="paychip">ライセンスはメール交付</span><span class="paychip">24時間以内</span><span class="paychip">オフライン認証</span><span class="paychip">アカウント不要</span></div>
-        <p class="fineprint">海外向け決済（Lemon Squeezy / Paddle）は準備中です。それまでは上のボタンを押すとフッターの連絡先に移動します。直接のご購入でも価格は同じで、24時間以内にライセンスファイルを送ります。</p>
-      </div>
-      <div class="card reveal">
-        <h3>動作環境</h3>
-        <p>ローカル AI 生成は GPU を使います：<strong style="color:var(--ink)">最低 RTX 3060 12GB、推奨 RTX 3090 クラス</strong>、メモリは 16GB 以上推奨。最低要件を満たさない場合は購入をお控えください。</p>
-        <p style="margin-top:10px">モデル本体はアプリに含まれません。無料でダウンロードできます（FAQ 参照）。</p>
-      </div>
-    </div>
-    <h3 class="reveal" style="margin:36px 0 16px;font-size:1.08rem">購入は 3 ステップ</h3>
-    <div class="steps">
-      <div class="step reveal"><div class="num">1</div><h3>7日間無料トライアル</h3><p>Windows インストーラーをダウンロード（公開ダウンロードは準備中。それまでは下の連絡先から試用パッケージをお渡しします）。全機能が 7日間使えます。</p></div>
-      <div class="step reveal"><div class="num">2</div><h3>購入の申込</h3><p>海外向け決済は準備中のため、当面は下の連絡先からお申し込みください。メールアドレスと、アプリの「システム → ライセンス管理」に表示されるマシン コードをお知らせください。ライセンスはその PC に紐付き、ファイルはメールで送ります。</p></div>
-      <div class="step reveal"><div class="num">3</div><h3>インポートで即時有効化</h3><p>24時間以内に届くライセンスファイルを、Harmony の「システム → ライセンス管理」からインポートすれば完了です。</p></div>
-    </div>
-    <p class="fineprint reveal">認証は完全オフライン。トライアル中の作品と設定はそのまま引き継がれます。</p>
-  </section>
-
-  <section class="block" id="faq">
-    <div class="sechead reveal">
-      <div class="kicker">FAQ</div>
-      <h2 class="sec">購入前のよくある質問</h2>
-      <div class="secbar"></div>
-    </div>
-    <details class="faq reveal">
-      <summary>私の PC で動きますか？</summary>
-      <p>ローカル AI 画像生成は GPU の VRAM を使います。最低 RTX 3060 12GB、推奨 RTX 3090 クラス、メモリ 16GB 以上推奨。最低要件を満たさない場合は購入をお控えください。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>モデルファイルはどこで入手しますか？</summary>
-      <p>アプリにモデル本体は含まれません。Qwen-Image-2.1 の GGUF ウェイトは ModelScope で無料ダウンロードでき、アプリの「設定」からファイルを指定します。各モデルのライセンスは提供元の条件に従ってください。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>トライアルと Pro の違いは？</summary>
-      <p>7日間は全機能が使えます。期限が過ぎると無料版になり、生成が停止し、書き出しにウォーターマークが入ります。ライセンスファイルをインポートすれば即座に全機能が戻り、ウォーターマークも消えます。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>認証にネット接続やアカウントは必要ですか？</summary>
-      <p>不要です。ライセンスはオフライン署名ファイルで、アプリにインポートするだけで認証完了。登録もサーバー確認もありません。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>Windows にブロックされます。どうすれば？</summary>
-      <p>現在まだコード署名がないため、SmartScreen の青い警告が出ることがあります。「詳細情報」→「実行」を選んでください。ダウンロードは必ず本サイトなど公式チャネルから行ってください。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>何台の PC で使えますか？</summary>
-      <p>ライセンスは PC 1台に紐付きます。注文時にメールアドレスと、アプリの「システム → ライセンス管理」に表示されるマシン コードをお知らせください。PC の買い替えや Windows の再インストール時は、新しいマシン コードで無料で付け替えます（旧ライセンスは同時に失効します）。</p>
-    </details>
-    <details class="faq reveal">
-      <summary>返金はできますか？</summary>
-      <p>Harmony はデジタル製品です。購入前に 7 日間の全機能無料試用をご用意していますので、お使いの PC や用途に合うかをまずお試しください。デジタル製品は交付後の返却ができないため、購入後の返金はお受けできません。</p>
-    </details>
-  </section>
-
-</main>
-
 <div class="ctaband">
   <div class="wrap">
     <div class="reveal">
-      <h2>まずは 7日間、無料で全機能をお試しください</h2>
-      <p>トライアル中の作品と設定は、アクティベーション後もそのまま引き継がれます。</p>
+      <h2>あなたに合うのはどちら？</h2>
+      <p>Harmony は 7日間全機能無料トライアル、拾光待辦は無料でご利用いただけます。</p>
     </div>
-    <a class="btn primary reveal" href="#buy">Pro を購入 — ¥269</a>
+    <div class="cta reveal">
+      <a class="btn primary" href="harmony-ja.html#buy">Harmony — ¥269</a>
+      <a class="btn ghost" href="todo-ja.html#get">拾光待辦 — 無料</a>
+    </div>
   </div>
 </div>
 
@@ -463,23 +364,22 @@
     <div class="fgrid">
       <div>
         <div class="fbrand"><span class="mark">z</span><span>zgybw</span></div>
-        <p class="fabout">ローカル AI 映像制作ツール。すべて自分の PC で動作します。zgybw が独立して制作・保守しています。</p>
+        <p class="fabout">ローカル優先のデスクトップソフト。すべて自分の PC で動作します。zgybw が独立して制作・保守しています。</p>
       </div>
       <div>
         <h4>製品</h4>
         <ul>
-          <li><a href="#features">機能</a></li>
-          <li><a href="#about">概要</a></li>
-          <li><a href="#showcase">ショーケース</a></li>
-          <li><a href="#buy">価格</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="harmony-ja.html">Harmony</a></li>
+          <li><a href="todo-ja.html">拾光待辦</a></li>
+          <li><a href="ja.html">すべての製品</a></li>
         </ul>
       </div>
       <div>
         <h4>リソース</h4>
         <ul>
-          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/download/harmony/Harmony-examples.zip">サンプルパック</a></li>
-          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/tag/harmony">リリース</a></li>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/download/harmony/Harmony-examples.zip">Harmony サンプルパック</a></li>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/tag/harmony">Harmony リリース</a></li>
+          <li><a href="https://github.com/zgybw30/todo">拾光待辦 GitHub</a></li>
         </ul>
       </div>
       <div>
@@ -492,15 +392,19 @@
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">ここは zgybw の製品サイトです。Harmony は現在販売中の製品で、今後さらに製品が加わります。購入・フィードバック・コラボのご相談は上の連絡先からどうぞ。</p>
+    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">ここは zgybw の製品サイトです。Harmony と拾光待辦が現在の 2 製品で、今後さらに加わります。購入・フィードバック・コラボのご相談は上の連絡先からどうぞ。</p>
     <div class="fbar">
       <span>© <span id="year">2026</span> zgybw</span>
-      <span>Harmony v2.0 リリース</span>
+      <span>Harmony v2.0 · 拾光待辦 v1.5</span>
     </div>
   </div>
 </footer>
 
 <script>
+  (function(){
+    var old = {'#buy':1,'#features':1,'#about':1,'#showcase':1,'#faq':1,'#history':1};
+    if(old[location.hash]){ location.replace('harmony-ja.html' + location.hash); }
+  })();
   document.getElementById('year').textContent = new Date().getFullYear();
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){

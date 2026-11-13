@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Harmony · Local AI Visual Production Studio</title>
-<meta name="description" content="Harmony: a desktop studio for photo studios, workshops and creators — image editing, layers, local AI image generation and batch pipelines. 7-day full trial, one-time purchase.">
+<title>zgybw · Local-first desktop software</title>
+<meta name="description" content="zgybw's product site: Harmony, a local AI visual production studio, and ShiguangTodo, a desktop to-do widget — both run entirely on your own computer.">
 <link rel="alternate" hreflang="zh-CN" href="index.html">
 <link rel="alternate" hreflang="en" href="en.html">
 <link rel="alternate" hreflang="ja" href="ja.html">
@@ -214,28 +214,49 @@
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
   @media(max-width:560px){nav ul .navlink.hideS{display:none}.topbar .tb-r{display:none}}
+  /* ---------- 面包屑 ---------- */
+  .crumb{background:#f5f6fa;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+  .crumb .wrap{padding:10px 24px}
+  .crumb a{color:var(--blue);text-decoration:none;font-weight:600}
+  .crumb a:hover{text-decoration:underline}
+  /* ---------- 产品卡 ---------- */
+  .pcard{padding:0;display:flex;flex-direction:column}
+  .pcard .pvisual{height:200px;overflow:hidden;background:var(--grad-dark);display:flex;align-items:center;justify-content:center;position:relative}
+  .pcard .pvisual img.cover{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .pcard .pvisual img.appicon{width:100px;height:100px;border-radius:25px;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+  .pcard .pvisual .plus{font-size:3rem;font-weight:300;color:#9aa0c3}
+  .pcard .pbody{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+  .pcard h3{font-size:1.22rem;margin-bottom:2px}
+  .pcard .ptag{color:var(--blue);font-weight:700;font-size:.86rem;margin-bottom:10px}
+  .pcard p.pdesc{color:var(--muted);font-size:.92rem;flex:1}
+  .pcard .ptags{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
+  .pcard .btn{align-self:flex-start;padding:12px 24px;font-size:.9rem}
+  .pcard.more{background:#fafbfe;border-style:dashed}
+  .pcard.more .pvisual{background:#eef0f7}
+  .pcard.more:hover{transform:none;box-shadow:0 2px 10px rgba(23,0,87,.04)}
+  /* ---------- Hero 图标框 ---------- */
+  .frame-body img.hero-icon{width:116px;height:116px;border-radius:28px;box-shadow:0 16px 40px rgba(0,0,0,.5);margin-bottom:16px}
+
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="wrap">
-    <span>Local AI visual production studio · Your data stays on your PC</span>
-    <span class="tb-r">Harmony v2.0 released</span>
+    <span>zgybw's product site · Local-first · Your data stays on your PC</span>
+    <span class="tb-r">Harmony v2.0 · ShiguangTodo v1.5</span>
   </div>
 </div>
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#"><span class="mark">z</span><span>zgybw <small>PRODUCTS</small></span></a>
+    <a class="brand" href="en.html"><span class="mark">z</span><span>zgybw <small>PRODUCTS</small></span></a>
     <ul>
-      <li><a class="navlink hideS" href="#features">Features</a></li>
-      <li><a class="navlink hideS" href="#about">About</a></li>
-      <li><a class="navlink hideS" href="#showcase">Showcase</a></li>
-      <li><a class="navlink hideS" href="#buy">Pricing</a></li>
-      <li><a class="navlink hideS" href="#faq">FAQ</a></li>
+      <li><a class="navlink hideS" href="#products">Products</a></li>
+      <li><a class="navlink hideS" href="#values">Principles</a></li>
+      <li><a class="navlink hideS" href="#contact">Contact</a></li>
       <li class="langsel"><a href="index.html" class="">中文</a><a href="en.html" class="on">EN</a><a href="ja.html" class="">日本語</a></li>
-      <li><a class="nav-cta" href="#buy">Buy</a></li>
+      <li><a class="nav-cta" href="#products">See products</a></li>
     </ul>
   </div>
 </nav>
@@ -243,73 +264,63 @@
 <header class="hero">
   <div class="hero-grid"></div>
   <div class="wrap">
-    <div class="badge reveal">Local-first · One-time purchase · 7-day free trial</div>
-    <h1 class="reveal">Harmony<br>The Local AI Visual Studio</h1>
-    <p class="lead reveal">A desktop studio for photo studios, workshops and creators: image editing, layers, local AI image generation and batch pipelines — all on your own computer. Your media never leaves your machine. No queues, no per-use fees.</p>
+    <div class="badge reveal">Independent · Local-first · Buy once</div>
+    <h1 class="reveal">Good tools run <span class="hl">on your own computer</span></h1>
+    <p class="lead reveal">I'm zgybw, an independent developer. Everything I build follows one rule: local first — your data never leaves your machine, no cloud dependency, no per-use fees. Two products so far — take a look.</p>
     <div class="cta reveal">
-      <a class="btn primary" href="#buy">Buy Pro — ¥269</a>
-      <a class="btn ghost" href="#features">Explore features</a>
-    </div>
-    <div class="frame reveal">
-      <div class="frame-bar"><i></i><i></i><i></i></div>
-      <img class="frame-img" src="assets/ui.png" alt="Harmony 软件界面">
+      <a class="btn primary" href="#products">See the products</a>
+      <a class="btn ghost" href="#contact">Contact me</a>
     </div>
   </div>
 </header>
 
 <div class="databand">
   <div class="wrap">
-    <div class="stat reveal"><b>7 days</b><small>Full-featured free trial</small></div>
-    <div class="stat reveal"><b>One-time</b><small>No subscription</small></div>
-    <div class="stat reveal"><b>2.x</b><small>Free updates included</small></div>
+    <div class="stat reveal"><b>2</b><small>Desktop products</small></div>
     <div class="stat reveal"><b>100%</b><small>Runs locally</small></div>
+    <div class="stat reveal"><b>Buy once</b><small>No subscriptions, no per-use fees</small></div>
+    <div class="stat reveal"><b>1 person</b><small>Independent — feedback reaches the maker</small></div>
   </div>
 </div>
 
 <main class="wrap">
 
-  <section class="block" id="features">
+  <section class="block" id="products">
     <div class="sechead reveal">
-      <div class="kicker">Features</div>
-      <h2 class="sec">One studio, from single retouch to batch delivery</h2>
+      <div class="kicker">PRODUCTS</div>
+      <h2 class="sec">Products</h2>
       <div class="secbar"></div>
-      <p class="secdesc">The whole line on one desk, running locally: retouch a single photo, generate images, run batch pipelines.</p>
+      <p class="secdesc">Two products, each doing one thing well. Open either for the full story.</p>
     </div>
     <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🖼</div><h3>Image editing & layers</h3><p>Crop, color, masks, adjustment layers and layer styles — everyday editing in one place.</p></div>
-      <div class="card reveal"><div class="icon">✨</div><h3>Local AI image generation</h3><p>Qwen-Image 2.1 runs on your machine: text-to-image and image editing, no uploads, no queues.</p></div>
-      <div class="card reveal"><div class="icon">🎬</div><h3>Batch pipelines</h3><p>Drop in a folder and let a recipe run the chain — repair, colorize, face restore, upscale, resize, watermark. Failures are skipped and jobs resume: set it running at night, collect finished files in the morning.</p></div>
-      <div class="card reveal"><div class="icon">📝</div><h3>Photo-studio one-click flows</h3><p>Old-photo repair, family-photo restoration, and ID photos from a side profile: pick the photo, click once. White, blue and red backgrounds plus standard sizes are built in.</p></div>
-      <div class="card reveal"><div class="icon">📦</div><h3>Templates & content packs</h3><p>Import workflow templates and content packs; save what works and reuse it in one click.</p></div>
-      <div class="card reveal"><div class="icon">🔒</div><h3>Local-first, offline licensing</h3><p>Media and models stay on your PC. Signed offline license — no account, no phone-home.</p></div>
-    </div>
-  </section>
-
-  <section class="block" id="about">
-    <div class="sechead left reveal">
-      <div class="kicker">ABOUT</div>
-      <h2 class="sec">About Harmony</h2>
-      <div class="secbar"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-txt reveal">
-        <p>Harmony is a local AI visual production studio built by independent developer zgybw. It brings image editing, layers, local AI image generation and batch pipelines into one desktop app, made for photo studios, workshops and short-video creators.</p>
-        <p>It runs the local route on purpose: models and media live on your own computer and it works fully offline. Nothing passes through a third-party server — client photos never leave your shop or your machine.</p>
-        <ul class="afeats">
-          <li>100% local — works fully offline</li>
-          <li>Media and work never upload; data stays on your PC</li>
-          <li>Offline signed license — no account, no phone-home</li>
-          <li>One-time purchase, free updates within 2.x</li>
-        </ul>
+      <div class="card pcard reveal">
+        <div class="pvisual"><img class="cover" src="assets/ui.png" alt="Harmony"></div>
+        <div class="pbody">
+          <h3>Harmony</h3>
+          <div class="ptag">Local AI visual production studio</div>
+          <p class="pdesc">For photo studios, workshops and creators: image editing, layers, local AI image generation and batch pipelines — all on your own computer.</p>
+          <div class="ptags"><span class="paychip">¥269 one-time</span><span class="paychip">7-day free trial</span><span class="paychip">Windows</span></div>
+          <a class="btn primary" href="harmony-en.html">Learn more →</a>
+        </div>
       </div>
-      <div class="infocard reveal">
-        <div class="ihead">Product info</div>
-        <div class="irow"><span>Product</span><b>Harmony</b></div>
-        <div class="irow"><span>Type</span><b>Desktop AI visual production app</b></div>
-        <div class="irow"><span>Platform</span><b>Windows</b></div>
-        <div class="irow"><span>Current version</span><b>v2.0</b></div>
-        <div class="irow"><span>Licensing</span><b>Offline signed file · one computer</b></div>
-        <div class="irow"><span>Developer</span><b>zgybw (independent)</b></div>
+      <div class="card pcard reveal">
+        <div class="pvisual"><img class="appicon" src="assets/todo-icon.png" alt="ShiguangTodo"></div>
+        <div class="pbody">
+          <h3>ShiguangTodo</h3>
+          <div class="ptag">Desktop to-do widget</div>
+          <p class="pdesc">A to-do list that lives on your desktop: today's tasks, due reminders, natural-language dates and weekly summaries. Your data stays local.</p>
+          <div class="ptags"><span class="paychip">Free</span><span class="paychip">Windows</span><span class="paychip">Lightweight widget</span></div>
+          <a class="btn primary" href="todo-en.html">Learn more →</a>
+        </div>
+      </div>
+      <div class="card pcard more reveal">
+        <div class="pvisual"><span class="plus">＋</span></div>
+        <div class="pbody">
+          <h3>More to come</h3>
+          <div class="ptag">On the way</div>
+          <p class="pdesc">The next product is in the works. First, these two get done right.</p>
+          <div class="ptags"><span class="paychip">Stay tuned</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -322,139 +333,29 @@
       <div class="kicker">PRINCIPLES</div>
       <h2 class="sec">What we stand by</h2>
       <div class="secbar"></div>
-      <p class="secdesc">A tool for production work earns its place by getting a few simple things right, every time.</p>
+      <p class="secdesc">Tools you use every day earn their place by getting a few simple things right, every time.</p>
     </div>
     <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🏠</div><h3>Local first</h3><p>Every generation runs on your machine. No cloud dependency — it works offline.</p></div>
-      <div class="card reveal"><div class="icon">🛡</div><h3>Data stays put</h3><p>Media, models and finished work live on your computer and upload nowhere.</p></div>
-      <div class="card reveal"><div class="icon">💎</div><h3>Buy once</h3><p>No subscription, no per-use fees. You buy it, you own it, it keeps working.</p></div>
-      <div class="card reveal"><div class="icon">🔑</div><h3>Offline licensing</h3><p>A signed license file activates offline — no account, no server check-in.</p></div>
-      <div class="card reveal"><div class="icon">🔄</div><h3>Kept current</h3><p>Free updates within the 2.x line, with in-app update checks and one-click upgrades.</p></div>
+      <div class="card reveal"><div class="icon">🏠</div><h3>Local first</h3><p>Every product runs on your machine. No cloud dependency — it works offline.</p></div>
+      <div class="card reveal"><div class="icon">🛡</div><h3>Data stays put</h3><p>Media, to-dos and finished work live on your computer and upload nowhere.</p></div>
+      <div class="card reveal"><div class="icon">💎</div><h3>Buy once</h3><p>Paid products are one-time purchases. No subscription, no per-use fees.</p></div>
+      <div class="card reveal"><div class="icon">🔑</div><h3>Offline licensing</h3><p>Paid products activate with a signed license file, offline — no account, no server check-in.</p></div>
+      <div class="card reveal"><div class="icon">🔄</div><h3>Kept current</h3><p>Products are maintained and updated, and issues go straight to the developer.</p></div>
       <div class="card reveal"><div class="icon">👋</div><h3>Independent</h3><p>Made and maintained by an independent developer — feedback reaches the person who builds it.</p></div>
     </div>
   </div>
 </section>
 
-<main class="wrap">
-
-  <section class="block" id="history">
-    <div class="sechead reveal">
-      <div class="kicker">HISTORY</div>
-      <h2 class="sec">Product history</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">From naming to release, every step of Harmony answers a real production need.</p>
-    </div>
-    <div class="timeline">
-      <div class="tl-item reveal"><span class="tl-date">2026.10</span><h3>Named Harmony</h3><p>The local-first product route and commercial plan were set: one-time purchase, offline signed licensing, one computer per license.</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Batch pipeline shipped</h3><p>Folder-in, finished-out batch processing for photo studios and workshops — failures skip, interrupted jobs resume.</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Phone remote shipped</h3><p>Scan to connect and drive generation from your phone over the LAN. Data never leaves the shop — the remote is a feature, not a relay.</p></div>
-      <div class="tl-item reveal"><span class="tl-date">2026.11</span><h3>Harmony 2.0 released</h3><p>First formal release, with the in-app auto-update chain complete: check, download and install in one flow.</p></div>
-    </div>
-  </section>
-
-  <section class="block" id="showcase">
-    <div class="sechead reveal">
-      <div class="kicker">Showcase</div>
-      <h2 class="sec">What Harmony looks like</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">Real UI screenshots; style samples generated with Harmony's own AI engine.</p>
-    </div>
-    <div class="show-grid">
-      <div class="shot reveal"><div class="shot-label">Style sample 1 · Cyberpunk<span>showcase/style-1.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 2 · Ink landscape<span>showcase/style-2.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 3 · Minimal geometry<span>showcase/style-3.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 4 · Cinematic realism<span>showcase/style-4.png</span></div></div>
-    </div>
-  </section>
-
-  <section class="block" id="buy">
-    <div class="sechead reveal">
-      <div class="kicker">Pricing</div>
-      <h2 class="sec">Simple pricing, buy once</h2>
-      <div class="secbar"></div>
-      <p class="secdesc">Start with a 7-day free trial with every feature open. Buy once only if it earns its place.</p>
-    </div>
-    <div class="grid cols2">
-      <div class="card price-card reveal">
-        <span class="price-badge">LAUNCH OFFER</span>
-        <h3>Harmony Pro</h3>
-        <div class="price-row">
-          <span class="price-now">¥269</span>
-          <span class="price-was">¥399</span>
-          <span class="price-note">One-time purchase (≈ US$37, list ¥399 ≈ US$55)</span>
-        </div>
-        <ul class="price-feats">
-          <li>All image generation and editing features unlocked</li>
-          <li>No watermarks on exports</li>
-          <li>Free updates within the 2.x line</li>
-          <li>Offline activation — no account</li>
-          <li>Licensed to one computer; free rebind when you change machines</li>
-        </ul>
-        <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
-        <a class="btn primary" href="#contact" id="afdian-link">Buy now — ¥269 →</a>
-        <div class="paychips"><span class="paychip">License delivered by email</span><span class="paychip">Within 24 hours</span><span class="paychip">Offline activation</span><span class="paychip">No account needed</span></div>
-        <p class="fineprint">International checkout (Lemon Squeezy / Paddle) is in preparation. Until it opens, the button above takes you to the contact links in the footer — buy directly from me at the same price, with the same 24-hour license delivery.</p>
-      </div>
-      <div class="card reveal">
-        <h3>System requirements</h3>
-        <p>Local AI generation is GPU-hungry: <strong style="color:var(--ink)">minimum RTX 3060 12GB, RTX 3090-class recommended</strong>, 16GB RAM or more suggested. Below the minimum, please don't buy.</p>
-        <p style="margin-top:10px">Model weights are not bundled with the app; they are free to download (see the FAQ).</p>
-      </div>
-    </div>
-    <h3 class="reveal" style="margin:36px 0 16px;font-size:1.08rem">Buying takes three steps</h3>
-    <div class="steps">
-      <div class="step reveal"><div class="num">1</div><h3>Start the free trial</h3><p>Download the Windows installer (public download going live — until then, get the trial package via the contact links below). Every feature is open for 7 days.</p></div>
-      <div class="step reveal"><div class="num">2</div><h3>Purchase</h3><p>International checkout is being set up; for now, contact me below with your email and the machine code shown in the app under System → License — your license is bound to that computer and the file is sent to your email.</p></div>
-      <div class="step reveal"><div class="num">3</div><h3>Import and you're activated</h3><p>Your license file arrives within 24 hours. Import it in Harmony under System → License and you're done.</p></div>
-    </div>
-    <p class="fineprint reveal">Activation is fully offline. Your trial-period work and settings carry over untouched.</p>
-  </section>
-
-  <section class="block" id="faq">
-    <div class="sechead reveal">
-      <div class="kicker">FAQ</div>
-      <h2 class="sec">Questions before you buy</h2>
-      <div class="secbar"></div>
-    </div>
-    <details class="faq reveal">
-      <summary>Can my PC run it?</summary>
-      <p>Local AI image generation leans on your GPU's VRAM. Minimum RTX 3060 12GB, RTX 3090-class recommended, 16GB RAM or more suggested. If your machine is below the minimum, please don't buy.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>Where do I get the model weights?</summary>
-      <p>The app bundles no model weights — you supply your own. The GGUF weights for Qwen-Image-2.1 are free to download from ModelScope; point the app's Settings at the file. Model licenses stay with their providers; please follow those terms.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>Trial vs. Pro — what's the difference?</summary>
-      <p>You get 7 days with every feature. When the trial ends, the free version disables generation and exports carry a watermark. Importing a license restores everything immediately, watermark-free.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>Does activation need internet or an account?</summary>
-      <p>No. Your license is an offline signed file: import it in the app and activation is complete. No registration, no machine account, no server check-in.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>Windows SmartScreen is blocking the app — what now?</summary>
-      <p>The app is not code-signed yet, so SmartScreen may show a blue warning. Click “More info” → “Run anyway”. Only download from this site or official channels, never from third-party mirrors.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>How many computers can I use it on?</summary>
-      <p>One license binds to one computer: when you order, send me your email and the machine code shown in the app (System → License). If you replace your PC or reinstall Windows, contact me for a free rebind with the new machine code — the old license is revoked at the same time.</p>
-    </details>
-    <details class="faq reveal">
-      <summary>What about refunds?</summary>
-      <p>Harmony is a digital product, and it comes with a 7-day full-feature free trial — please try it first and make sure it fits your PC and your needs. Because a delivered digital licence cannot be taken back, purchases are non-refundable.</p>
-    </details>
-  </section>
-
-</main>
-
 <div class="ctaband">
   <div class="wrap">
     <div class="reveal">
-      <h2>Try everything free for 7 days</h2>
-      <p>Every feature is open during the trial, and your work and settings carry over when you activate.</p>
+      <h2>See which one fits you</h2>
+      <p>Harmony comes with a 7-day full-feature free trial; ShiguangTodo is free.</p>
     </div>
-    <a class="btn primary reveal" href="#buy">Buy Pro — ¥269</a>
+    <div class="cta reveal">
+      <a class="btn primary" href="harmony-en.html#buy">Harmony — ¥269</a>
+      <a class="btn ghost" href="todo-en.html#get">ShiguangTodo — free</a>
+    </div>
   </div>
 </div>
 
@@ -463,23 +364,22 @@
     <div class="fgrid">
       <div>
         <div class="fbrand"><span class="mark">z</span><span>zgybw</span></div>
-        <p class="fabout">Local AI visual production tools that run entirely on your own machine. Built and maintained by zgybw.</p>
+        <p class="fabout">Local-first desktop software that runs entirely on your own machine. Built and maintained by zgybw.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h4>Products</h4>
         <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#showcase">Showcase</a></li>
-          <li><a href="#buy">Pricing</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="harmony-en.html">Harmony</a></li>
+          <li><a href="todo-en.html">ShiguangTodo</a></li>
+          <li><a href="en.html">All products</a></li>
         </ul>
       </div>
       <div>
         <h4>Resources</h4>
         <ul>
-          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/download/harmony/Harmony-examples.zip">Sample pack download</a></li>
-          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/tag/harmony">Releases</a></li>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/download/harmony/Harmony-examples.zip">Harmony sample pack</a></li>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/tag/harmony">Harmony releases</a></li>
+          <li><a href="https://github.com/zgybw30/todo">ShiguangTodo on GitHub</a></li>
         </ul>
       </div>
       <div>
@@ -492,15 +392,19 @@
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">This is zgybw's product site. Harmony is the product currently on sale; more products will follow. Purchases, feedback and collaborations: use the contact links above.</p>
+    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">This is zgybw's product site. Harmony and ShiguangTodo are the two products so far; more will follow. Purchases, feedback and collaborations: use the contact links above.</p>
     <div class="fbar">
       <span>© <span id="year">2026</span> zgybw</span>
-      <span>Harmony v2.0 released</span>
+      <span>Harmony v2.0 · ShiguangTodo v1.5</span>
     </div>
   </div>
 </footer>
 
 <script>
+  (function(){
+    var old = {'#buy':1,'#features':1,'#about':1,'#showcase':1,'#faq':1,'#history':1};
+    if(old[location.hash]){ location.replace('harmony-en.html' + location.hash); }
+  })();
   document.getElementById('year').textContent = new Date().getFullYear();
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){

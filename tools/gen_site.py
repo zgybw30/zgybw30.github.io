@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
-"""Generate index.html / en.html / ja.html from tools/site_template.html.
-Standard product-page design: product-first, minimal personal content.
+"""Generate the brand site from tools/*_template.html + tools/style.css.
+Three page sets x three languages = 9 pages:
+  home:    index.html / en.html / ja.html            (brand home, product cards)
+  harmony: harmony.html / harmony-en.html / harmony-ja.html  (Harmony detail)
+  todo:    todo.html / todo-en.html / todo-ja.html    (ShiguangTodo detail)
 Run from anywhere: python3 tools/gen_site.py  (writes to the repo root)."""
 import io, os, re
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_HERE)
-TPL = io.open(os.path.join(_HERE, 'site_template.html'), encoding='utf-8').read()
+STYLE = io.open(os.path.join(_HERE, 'style.css'), encoding='utf-8').read()
+TPL = {n: io.open(os.path.join(_HERE, n + '_template.html'), encoding='utf-8').read()
+       for n in ('home', 'harmony', 'todo')}
+
+SETS = {
+    'home':    {'zh': 'index.html',   'en': 'en.html',         'ja': 'ja.html'},
+    'harmony': {'zh': 'harmony.html', 'en': 'harmony-en.html', 'ja': 'harmony-ja.html'},
+    'todo':    {'zh': 'todo.html',    'en': 'todo-en.html',    'ja': 'todo-ja.html'},
+}
 
 def feats_html(feats):
     return '\n'.join('          <li>%s</li>' % f for f in feats)
@@ -24,18 +35,182 @@ def faq_html(items):
         '    <details class="faq reveal">\n      <summary>%s</summary>\n      <p>%s</p>\n    </details>' % (q, a)
         for q, a in items)
 
-ZH = dict(
+def afeats_html(feats):
+    return '\n'.join('          <li>%s</li>' % f for f in feats)
+
+def info_html(rows):
+    return '\n'.join(
+        '        <div class="irow"><span>%s</span><b>%s</b></div>' % (k, v)
+        for k, v in rows)
+
+def timeline_html(items):
+    return '\n'.join(
+        '      <div class="tl-item reveal"><span class="tl-date">%s</span><h3>%s</h3><p>%s</p></div>' % (d, h, t)
+        for d, h, t in items)
+
+
+# Shared across all 9 pages: footer, contact, crumb, product names.
+SHARED = {
+'zh': dict(
+    FOOT_PRODUCTS="产品站",
+    FOOT_BINANCE="币安广场 @zgybw",
+    F_COL_P="产品", F_COL_R="资源", F_COL_C="联系",
+    F_WECHAT="微信 · zgybw（扫码添加）",
+    F_ABOUT_P="本地优先的桌面软件，全部在你自己的电脑上运行。由 zgybw 独立制作与维护。",
+    FOOT_NOTE="这里是 zgybw 的产品站：Harmony 与拾光待办是目前的两款产品，后续会有更多加入。购买、反馈与合作请通过上方联系方式。",
+    TODO_NAME="拾光待办", F_PROD_ALL="全部产品",
+    F_RES1="Harmony 示例包下载", F_RES2="Harmony 版本发布", F_RES3="拾光待办 GitHub",
+    CRUMB_ALL="← 全部产品",
+),
+'en': dict(
+    FOOT_PRODUCTS="PRODUCTS",
+    FOOT_BINANCE="Binance Square @zgybw",
+    F_COL_P="Products", F_COL_R="Resources", F_COL_C="Contact",
+    F_WECHAT="WeChat — scan to add",
+    F_ABOUT_P="Local-first desktop software that runs entirely on your own machine. Built and maintained by zgybw.",
+    FOOT_NOTE="This is zgybw's product site. Harmony and ShiguangTodo are the two products so far; more will follow. Purchases, feedback and collaborations: use the contact links above.",
+    TODO_NAME="ShiguangTodo", F_PROD_ALL="All products",
+    F_RES1="Harmony sample pack", F_RES2="Harmony releases", F_RES3="ShiguangTodo on GitHub",
+    CRUMB_ALL="← All products",
+),
+'ja': dict(
+    FOOT_PRODUCTS="製品",
+    FOOT_BINANCE="Binance Square @zgybw",
+    F_COL_P="製品", F_COL_R="リソース", F_COL_C="連絡先",
+    F_WECHAT="WeChat — スキャンして追加",
+    F_ABOUT_P="ローカル優先のデスクトップソフト。すべて自分の PC で動作します。zgybw が独立して制作・保守しています。",
+    FOOT_NOTE="ここは zgybw の製品サイトです。Harmony と拾光待辦が現在の 2 製品で、今後さらに加わります。購入・フィードバック・コラボのご相談は上の連絡先からどうぞ。",
+    TODO_NAME="拾光待辦", F_PROD_ALL="すべての製品",
+    F_RES1="Harmony サンプルパック", F_RES2="Harmony リリース", F_RES3="拾光待辦 GitHub",
+    CRUMB_ALL="← すべての製品",
+),
+}
+
+
+HOME = {
+'zh': dict(
+    LANG="zh-CN",
+    TITLE="zgybw · 本地优先的桌面软件",
+    META="zgybw 的产品站：Harmony 本地 AI 视觉生产工作台与拾光待办桌面待办小部件，都在你自己的电脑上运行。",
+    TOPBAR_TXT="zgybw 的产品站 · 本地优先 · 数据不出本机",
+    TOPBAR_RIGHT="Harmony v2.0 · 拾光待办 v1.5",
+    NAV_PRODUCTS="产品", NAV_VALUES="坚持", NAV_CONTACT="联系", NAV_CTA="查看产品",
+    HERO_BADGE="独立开发 · 本地优先 · 一次买断",
+    HERO_H1='好工具，<span class="hl">在你的电脑上跑</span>',
+    HERO_LEAD="我是独立开发者 zgybw。我做的软件都坚持一条：本地优先——数据不出本机，不依赖云端，不按量付费。目前有两款产品，点进去看看。",
+    HERO_CTA1="看看产品", HERO_CTA2="联系我",
+    ST1B="2", ST1S="款桌面产品", ST2B="100%", ST2S="本地运行",
+    ST3B="买断制", ST3S="无订阅 · 无按量付费", ST4B="1 人", ST4S="独立开发 · 反馈直达本人",
+    P_KICKER="PRODUCTS", P_H2="产品",
+    P_DESC="两款产品，各做一件事。点进任意一款查看详细介绍。",
+    H_PTAG="本地 AI 视觉生产工作台",
+    H_PDESC="为照相馆、工作室与创作者打造：图像编辑、图层、本地 AI 生图与批量流水线，全在你自己的电脑上完成。",
+    H_CHIPS=["¥269 买断", "7 天免费试用", "Windows"], H_BTN="查看详情 →",
+    T_PTAG="桌面待办小部件",
+    T_PDESC="贴在桌面上的待办清单：今日待办、到期提醒、中文自然语言记时间、周结统计，数据只在本地。",
+    T_CHIPS=["免费", "Windows", "轻量小部件"], T_BTN="查看详情 →",
+    MORE_T="更多产品", MORE_TAG="陆续加入",
+    MORE_P="下一个产品正在路上。先把手头的两款做好，再慢慢加。",
+    MORE_NOTE="敬请期待",
+    V_KICKER="PRINCIPLES", V_H2="我们的坚持",
+    V_DESC="做给每天用的工具，靠的是把几件简单的事一直做对。",
+    VAL1T="本地优先", VAL1P="每款产品都在本机运行，不依赖云端服务，断网照样开工。",
+    VAL2T="数据不出本机", VAL2P="素材、待办与作品都在你的电脑上，不上传任何服务器。",
+    VAL3T="一次买断", VAL3P="付费产品一次买断，没有订阅，没有按量计费；买了就是你的。",
+    VAL4T="离线授权", VAL4P="付费产品用签名授权文件离线激活，不注册、不绑账号、不回连验证。",
+    VAL5T="持续更新", VAL5P="产品持续维护更新，有问题直接找开发者本人，不绕客服工单。",
+    VAL6T="独立开发", VAL6P="由独立开发者制作与维护，反馈直达本人。",
+    CTA_H="看看哪款适合你", CTA_P="Harmony 提供 7 天全功能免费试用，拾光待办免费使用。",
+    CTA_BTN1="Harmony ¥269 购买", CTA_BTN2="拾光待办 免费获取",
+),
+'en': dict(
+    LANG="en",
+    TITLE="zgybw · Local-first desktop software",
+    META="zgybw's product site: Harmony, a local AI visual production studio, and ShiguangTodo, a desktop to-do widget — both run entirely on your own computer.",
+    TOPBAR_TXT="zgybw's product site · Local-first · Your data stays on your PC",
+    TOPBAR_RIGHT="Harmony v2.0 · ShiguangTodo v1.5",
+    NAV_PRODUCTS="Products", NAV_VALUES="Principles", NAV_CONTACT="Contact", NAV_CTA="See products",
+    HERO_BADGE="Independent · Local-first · Buy once",
+    HERO_H1='Good tools run <span class="hl">on your own computer</span>',
+    HERO_LEAD="I'm zgybw, an independent developer. Everything I build follows one rule: local first — your data never leaves your machine, no cloud dependency, no per-use fees. Two products so far — take a look.",
+    HERO_CTA1="See the products", HERO_CTA2="Contact me",
+    ST1B="2", ST1S="Desktop products", ST2B="100%", ST2S="Runs locally",
+    ST3B="Buy once", ST3S="No subscriptions, no per-use fees", ST4B="1 person", ST4S="Independent — feedback reaches the maker",
+    P_KICKER="PRODUCTS", P_H2="Products",
+    P_DESC="Two products, each doing one thing well. Open either for the full story.",
+    H_PTAG="Local AI visual production studio",
+    H_PDESC="For photo studios, workshops and creators: image editing, layers, local AI image generation and batch pipelines — all on your own computer.",
+    H_CHIPS=["¥269 one-time", "7-day free trial", "Windows"], H_BTN="Learn more →",
+    T_PTAG="Desktop to-do widget",
+    T_PDESC="A to-do list that lives on your desktop: today's tasks, due reminders, natural-language dates and weekly summaries. Your data stays local.",
+    T_CHIPS=["Free", "Windows", "Lightweight widget"], T_BTN="Learn more →",
+    MORE_T="More to come", MORE_TAG="On the way",
+    MORE_P="The next product is in the works. First, these two get done right.",
+    MORE_NOTE="Stay tuned",
+    V_KICKER="PRINCIPLES", V_H2="What we stand by",
+    V_DESC="Tools you use every day earn their place by getting a few simple things right, every time.",
+    VAL1T="Local first", VAL1P="Every product runs on your machine. No cloud dependency — it works offline.",
+    VAL2T="Data stays put", VAL2P="Media, to-dos and finished work live on your computer and upload nowhere.",
+    VAL3T="Buy once", VAL3P="Paid products are one-time purchases. No subscription, no per-use fees.",
+    VAL4T="Offline licensing", VAL4P="Paid products activate with a signed license file, offline — no account, no server check-in.",
+    VAL5T="Kept current", VAL5P="Products are maintained and updated, and issues go straight to the developer.",
+    VAL6T="Independent", VAL6P="Made and maintained by an independent developer — feedback reaches the person who builds it.",
+    CTA_H="See which one fits you", CTA_P="Harmony comes with a 7-day full-feature free trial; ShiguangTodo is free.",
+    CTA_BTN1="Harmony — ¥269", CTA_BTN2="ShiguangTodo — free",
+),
+'ja': dict(
+    LANG="ja",
+    TITLE="zgybw · ローカル優先のデスクトップソフト",
+    META="zgybw の製品サイト：ローカル AI 映像制作スタジオ Harmony とデスクトップ ToDo ウィジェット拾光待辦。どちらも自分の PC だけで動作します。",
+    TOPBAR_TXT="zgybw の製品サイト · ローカル優先 · データは PC の外に出ません",
+    TOPBAR_RIGHT="Harmony v2.0 · 拾光待辦 v1.5",
+    NAV_PRODUCTS="製品", NAV_VALUES="こだわり", NAV_CONTACT="連絡先", NAV_CTA="製品を見る",
+    HERO_BADGE="独立開発 · ローカル優先 · 買い切り",
+    HERO_H1='良い道具は、<span class="hl">自分の PC で動く</span>',
+    HERO_LEAD="独立開発者の zgybw です。私のソフトはすべて一つの方針で作っています：ローカル優先。データは PC の外に出ず、クラウドに依存せず、従量課金もありません。現在 2 製品、ぜひご覧ください。",
+    HERO_CTA1="製品を見る", HERO_CTA2="連絡する",
+    ST1B="2", ST1S="デスクトップ製品", ST2B="100%", ST2S="ローカル実行",
+    ST3B="買い切り", ST3S="サブスクなし · 従量課金なし", ST4B="1人", ST4S="独立開発 · 声は直接開発者へ",
+    P_KICKER="PRODUCTS", P_H2="製品",
+    P_DESC="2つの製品、それぞれ一つのことをしっかりやります。詳しくは各製品ページへ。",
+    H_PTAG="ローカル AI 映像制作スタジオ",
+    H_PDESC="写真館・工房・クリエイター向け：画像編集、レイヤー、ローカル AI 画像生成、バッチパイプラインを、すべて自分の PC の中で。",
+    H_CHIPS=["買い切り ¥269", "7日間無料トライアル", "Windows"], H_BTN="詳しく見る →",
+    T_PTAG="デスクトップ ToDo ウィジェット",
+    T_PDESC="デスクトップに貼る ToDo リスト：今日の予定、期限リマインダー、自然言語での日時入力、週次まとめ。データはローカルのみ。",
+    T_CHIPS=["無料", "Windows", "軽量ウィジェット"], T_BTN="詳しく見る →",
+    MORE_T="今後さらに追加", MORE_TAG="準備中",
+    MORE_P="次の製品を準備中です。まずはこの 2 つをしっかり仕上げます。",
+    MORE_NOTE="お楽しみに",
+    V_KICKER="PRINCIPLES", V_H2="私たちのこだわり",
+    V_DESC="毎日使う道具は、いくつかのシンプルな約束を守り続けることで信頼を得ます。",
+    VAL1T="ローカル優先", VAL1P="すべての製品は自分の PC で動作。クラウドに依存せず、オフラインでも働きます。",
+    VAL2T="データは外に出ない", VAL2P="素材も ToDo も完成品も、すべてあなたの PC の中。どこにもアップロードしません。",
+    VAL3T="買い切り", VAL3P="有料製品は買い切り。サブスクも従量課金もありません。",
+    VAL4T="オフライン認証", VAL4P="有料製品は署名付きライセンスファイルでオフライン認証。登録もサーバー確認も不要です。",
+    VAL5T="継続アップデート", VAL5P="製品は継続的に保守・更新され、ご意見は直接開発者に届きます。",
+    VAL6T="独立開発", VAL6P="独立開発者が制作・保守します。フィードバックは本人に直接届きます。",
+    CTA_H="あなたに合うのはどちら？", CTA_P="Harmony は 7日間全機能無料トライアル、拾光待辦は無料でご利用いただけます。",
+    CTA_BTN1="Harmony — ¥269", CTA_BTN2="拾光待辦 — 無料",
+),
+}
+
+
+HARMONY = {
+'zh': dict(
     LANG="zh-CN",
     TITLE="Harmony · 本地 AI 视觉生产工作台",
     META="Harmony：为照相馆、工作室与创作者打造的桌面工作台——图像编辑、图层、本地 AI 生图与批量流水线。7 天全功能免费试用，一次性买断。",
-    NAV_FEATURES="功能", NAV_SHOWCASE="展示", NAV_PRICING="价格", NAV_BUY="购买",
+    TOPBAR_TXT="本地 AI 视觉生产工作台 · 数据不出本机",
+    TOPBAR_RIGHT="Harmony v2.0 已发布",
+    NAV_FEATURES="功能", NAV_ABOUT="关于", NAV_SHOWCASE="展示", NAV_PRICING="价格", NAV_BUY="购买",
     HERO_BADGE="本地优先 · 一次买断 · 7 天免费试用",
     HERO_H1='Harmony<br>本地 AI 视觉生产工作台',
     HERO_LEAD="为照相馆、工作室与创作者打造的桌面工作台：图像编辑、图层、本地 AI 生图与批量流水线，全在你自己的电脑上完成。素材不出本机，不排队，不按量付费。",
     HERO_CTA1="¥269 购买专业版", HERO_CTA2="了解功能",
+    HERO_IMG_ALT="Harmony 软件界面",
     ST1B="7 天", ST1S="全功能免费试用", ST2B="一次性", ST2S="买断 · 无订阅",
     ST3B="2.x", ST3S="版本内免费更新", ST4B="100%", ST4S="本地运行",
-    SHOT0="软件界面展示图（待生成）",
     F_KICKER="功能", F_H2="一个工作台，从单张精修到整批交付",
     F_DESC="把分散的工具收拢到一条生产线上：单张精修、AI 生图、批量流水线，都在本地完成。",
     FEAT1T="图像编辑与图层", FEAT1P="裁剪、调色、蒙版、调整层与图层样式，日常修图一站完成。",
@@ -44,6 +219,29 @@ ZH = dict(
     FEAT4T="照相馆一键流程", FEAT4P="老照片修复、全家福还原、侧脸变证件照：选好照片点一下就出片，白 / 蓝 / 红底与常用尺寸规格都备好了。",
     FEAT5T="模板与内容包", FEAT5P="工作流模板与内容包导入，跑通的流程存下来，一键复用。",
     FEAT6T="本地优先 · 离线授权", FEAT6P="素材与模型都在本机，离线签名授权，不注册账号、不联网验证。",
+    A_KICKER="ABOUT", A_H2="关于 Harmony",
+    A_P1="Harmony 是由独立开发者 zgybw 打造的本地 AI 视觉生产工作台：把图像编辑、图层、本地 AI 生图与批量流水线收拢到一个桌面软件里，为照相馆、工作室与短视频创作者的生产场景而做。",
+    A_P2="它坚持本地运行的路线：模型与素材都在你自己的电脑上，断网可用；生成全程不经过任何第三方服务器，客户照片不出店、不出本机。",
+    A_FEATS=["100% 本地运行，断网可用", "素材与作品不上传，数据不出本机",
+             "离线签名授权，不注册账号、不联网验证", "一次买断，2.x 版本内免费更新"],
+    INFO_TITLE="产品信息",
+    INFO=[("产品名称", "Harmony"), ("产品类型", "桌面 AI 视觉生产软件"),
+          ("运行平台", "Windows"), ("当前版本", "v2.0"),
+          ("授权方式", "离线签名 · 绑定一台电脑"), ("开发者", "zgybw（独立开发）")],
+    V_KICKER="PRINCIPLES", V_H2="我们的坚持",
+    V_DESC="做给生产场景用的工具，靠的是把几件简单的事一直做对。",
+    VAL1T="本地优先", VAL1P="全部生成在本机完成，不依赖云端服务，断网照样开工。",
+    VAL2T="数据不出本机", VAL2P="素材、模型与作品都在你的电脑上，不上传任何服务器。",
+    VAL3T="一次买断", VAL3P="没有订阅，没有按量计费；买了就是你的，一直能用。",
+    VAL4T="离线授权", VAL4P="签名授权文件离线激活，不注册、不绑账号、不回连验证。",
+    VAL5T="持续更新", VAL5P="2.x 版本内免费更新，软件内检查更新、一键升级。",
+    VAL6T="独立开发", VAL6P="由独立开发者制作与维护，反馈直达本人，不绕客服工单。",
+    T_KICKER="HISTORY", T_H2="产品历程",
+    T_DESC="从定名到正式发布，Harmony 的每一步都落在真实的生产需求上。",
+    TL=[("2026.10", "产品定名 Harmony", "确定本地优先的产品路线与商业化方案：一次性买断、离线签名授权、绑定一台电脑。"),
+        ("2026.11", "批量流水线上线", "面向照相馆与工作室的批量处理流水线：文件夹进、成品出，失败跳过、断点续跑。"),
+        ("2026.11", "手机遥控上线", "手机扫码连接电脑，在局域网内遥控生成；数据不出店，遥控本身就是卖点。"),
+        ("2026.11", "Harmony 2.0 正式发布", "首个正式版本发布，软件内自动更新链路打通：检查更新、下载、安装一气呵成。")],
     SH_KICKER="展示", SH_H2="Harmony 长这样",
     SH_DESC="界面展示用软件真实截图；风格样张由 Harmony 的 AI 生图生成。",
     SHOT1="风格样张 1 · 赛博朋克", SHOT2="风格样张 2 · 水墨山水",
@@ -80,23 +278,23 @@ ZH = dict(
            "一份授权绑定一台电脑：下单时把软件「授权管理」里显示的机器码连同邮箱一起发我即可。换电脑或重装系统联系我免费换绑（提供新机器码），旧的那份同时吊销。"),
           ("可以退款吗？",
            "Harmony 是数字产品，购买前提供 7 天全功能免费试用，建议先下载试用、确认适合你的电脑与需求后再购买。数字产品在交付后无法收回，因此购买后不支持退款。")],
-    FOOT_BINANCE="币安广场 @zgybw",
-    FOOT_PRODUCTS="产品站",
-    FOOT_NOTE="这里是 zgybw 的产品站，Harmony 是目前在售的产品，后续会有更多产品加入。购买、反馈与合作请通过上方联系方式。",
-)
-
-EN = dict(
+    CTA_H="先免费试用 7 天，再决定买不买", CTA_P="全功能开放试用，试用期间的作品与设置在激活后完整保留。",
+    CTA_BTN="¥269 购买专业版",
+),
+'en': dict(
     LANG="en",
     TITLE="Harmony · Local AI Visual Production Studio",
     META="Harmony: a desktop studio for photo studios, workshops and creators — image editing, layers, local AI image generation and batch pipelines. 7-day full trial, one-time purchase.",
-    NAV_FEATURES="Features", NAV_SHOWCASE="Showcase", NAV_PRICING="Pricing", NAV_BUY="Buy",
+    TOPBAR_TXT="Local AI visual production studio · Your data stays on your PC",
+    TOPBAR_RIGHT="Harmony v2.0 released",
+    NAV_FEATURES="Features", NAV_ABOUT="About", NAV_SHOWCASE="Showcase", NAV_PRICING="Pricing", NAV_BUY="Buy",
     HERO_BADGE="Local-first · One-time purchase · 7-day free trial",
     HERO_H1='Harmony<br>The Local AI Visual Studio',
     HERO_LEAD="A desktop studio for photo studios, workshops and creators: image editing, layers, local AI image generation and batch pipelines — all on your own computer. Your media never leaves your machine. No queues, no per-use fees.",
     HERO_CTA1="Buy Pro — ¥269", HERO_CTA2="Explore features",
+    HERO_IMG_ALT="Harmony app interface",
     ST1B="7 days", ST1S="Full-featured free trial", ST2B="One-time", ST2S="No subscription",
     ST3B="2.x", ST3S="Free updates included", ST4B="100%", ST4S="Runs locally",
-    SHOT0="App UI showcase (to be generated)",
     F_KICKER="Features", F_H2="One studio, from single retouch to batch delivery",
     F_DESC="The whole line on one desk, running locally: retouch a single photo, generate images, run batch pipelines.",
     FEAT1T="Image editing & layers", FEAT1P="Crop, color, masks, adjustment layers and layer styles — everyday editing in one place.",
@@ -105,6 +303,29 @@ EN = dict(
     FEAT4T="Photo-studio one-click flows", FEAT4P="Old-photo repair, family-photo restoration, and ID photos from a side profile: pick the photo, click once. White, blue and red backgrounds plus standard sizes are built in.",
     FEAT5T="Templates & content packs", FEAT5P="Import workflow templates and content packs; save what works and reuse it in one click.",
     FEAT6T="Local-first, offline licensing", FEAT6P="Media and models stay on your PC. Signed offline license — no account, no phone-home.",
+    A_KICKER="ABOUT", A_H2="About Harmony",
+    A_P1="Harmony is a local AI visual production studio built by independent developer zgybw. It brings image editing, layers, local AI image generation and batch pipelines into one desktop app, made for photo studios, workshops and short-video creators.",
+    A_P2="It runs the local route on purpose: models and media live on your own computer and it works fully offline. Nothing passes through a third-party server — client photos never leave your shop or your machine.",
+    A_FEATS=["100% local — works fully offline", "Media and work never upload; data stays on your PC",
+             "Offline signed license — no account, no phone-home", "One-time purchase, free updates within 2.x"],
+    INFO_TITLE="Product info",
+    INFO=[("Product", "Harmony"), ("Type", "Desktop AI visual production app"),
+          ("Platform", "Windows"), ("Current version", "v2.0"),
+          ("Licensing", "Offline signed file · one computer"), ("Developer", "zgybw (independent)")],
+    V_KICKER="PRINCIPLES", V_H2="What we stand by",
+    V_DESC="A tool for production work earns its place by getting a few simple things right, every time.",
+    VAL1T="Local first", VAL1P="Every generation runs on your machine. No cloud dependency — it works offline.",
+    VAL2T="Data stays put", VAL2P="Media, models and finished work live on your computer and upload nowhere.",
+    VAL3T="Buy once", VAL3P="No subscription, no per-use fees. You buy it, you own it, it keeps working.",
+    VAL4T="Offline licensing", VAL4P="A signed license file activates offline — no account, no server check-in.",
+    VAL5T="Kept current", VAL5P="Free updates within the 2.x line, with in-app update checks and one-click upgrades.",
+    VAL6T="Independent", VAL6P="Made and maintained by an independent developer — feedback reaches the person who builds it.",
+    T_KICKER="HISTORY", T_H2="Product history",
+    T_DESC="From naming to release, every step of Harmony answers a real production need.",
+    TL=[("2026.10", "Named Harmony", "The local-first product route and commercial plan were set: one-time purchase, offline signed licensing, one computer per license."),
+        ("2026.11", "Batch pipeline shipped", "Folder-in, finished-out batch processing for photo studios and workshops — failures skip, interrupted jobs resume."),
+        ("2026.11", "Phone remote shipped", "Scan to connect and drive generation from your phone over the LAN. Data never leaves the shop — the remote is a feature, not a relay."),
+        ("2026.11", "Harmony 2.0 released", "First formal release, with the in-app auto-update chain complete: check, download and install in one flow.")],
     SH_KICKER="Showcase", SH_H2="What Harmony looks like",
     SH_DESC="Real UI screenshots; style samples generated with Harmony's own AI engine.",
     SHOT1="Style sample 1 · Cyberpunk", SHOT2="Style sample 2 · Ink landscape",
@@ -142,23 +363,23 @@ EN = dict(
            "One license binds to one computer: when you order, send me your email and the machine code shown in the app (System → License). If you replace your PC or reinstall Windows, contact me for a free rebind with the new machine code — the old license is revoked at the same time."),
           ("What about refunds?",
            "Harmony is a digital product, and it comes with a 7-day full-feature free trial — please try it first and make sure it fits your PC and your needs. Because a delivered digital licence cannot be taken back, purchases are non-refundable.")],
-    FOOT_BINANCE="Binance Square @zgybw",
-    FOOT_PRODUCTS="PRODUCTS",
-    FOOT_NOTE="This is zgybw's product site. Harmony is the product currently on sale; more products will follow. Purchases, feedback and collaborations: use the contact links above.",
-)
-
-JA = dict(
+    CTA_H="Try everything free for 7 days", CTA_P="Every feature is open during the trial, and your work and settings carry over when you activate.",
+    CTA_BTN="Buy Pro — ¥269",
+),
+'ja': dict(
     LANG="ja",
     TITLE="Harmony · ローカル AI 映像制作スタジオ",
     META="Harmony：写真館・工房・クリエイター向けデスクトップスタジオ。画像編集、レイヤー、ローカル AI 画像生成とバッチパイプライン。7日間全機能無料トライアル、買い切り。",
-    NAV_FEATURES="機能", NAV_SHOWCASE="ショーケース", NAV_PRICING="価格", NAV_BUY="購入",
+    TOPBAR_TXT="ローカル AI 映像制作スタジオ · データは PC の外に出ません",
+    TOPBAR_RIGHT="Harmony v2.0 リリース",
+    NAV_FEATURES="機能", NAV_ABOUT="概要", NAV_SHOWCASE="ショーケース", NAV_PRICING="価格", NAV_BUY="購入",
     HERO_BADGE="ローカル優先 · 買い切り · 7日間無料トライアル",
     HERO_H1='Harmony<br>ローカル AI 映像制作スタジオ',
     HERO_LEAD="写真館・工房・クリエイターのためのデスクトップスタジオ：画像編集、レイヤー、ローカル AI 画像生成とバッチパイプラインを、すべて自分の PC の中で。素材は外に出ず、待ち行列も従量課金もありません。",
     HERO_CTA1="Pro を購入 — ¥269", HERO_CTA2="機能を見る",
+    HERO_IMG_ALT="Harmony アプリ画面",
     ST1B="7日間", ST1S="全機能無料トライアル", ST2B="買い切り", ST2S="サブスクなし",
     ST3B="2.x", ST3S="無料アップデート込み", ST4B="100%", ST4S="ローカル実行",
-    SHOT0="アプリ UI ショーケース（生成予定）",
     F_KICKER="機能", F_H2="一枚の仕上げから一括納品まで、一つのスタジオで",
     F_DESC="一枚のレタッチ、AI 画像生成、バッチパイプラインまで。作業の流れをすべてローカルで完結させます。",
     FEAT1T="画像編集とレイヤー", FEAT1P="切り抜き、色調整、マスク、調整レイヤーとレイヤースタイル。日常の編集はここで完結。",
@@ -167,6 +388,29 @@ JA = dict(
     FEAT4T="写真館ワンクリック", FEAT4P="古い写真の修復、家族写真の復元、横顔からの証明写真：写真を選んでワンクリック。白・青・赤の背景と規格サイズを用意済み。",
     FEAT5T="テンプレートとコンテンツパック", FEAT5P="ワークフローテンプレートとパックをインポート。うまくいった流れを保存して再利用。",
     FEAT6T="ローカル優先 · オフライン認証", FEAT6P="素材もモデルも PC の中。署名付きオフラインライセンスで、アカウント登録もサーバー確認も不要。",
+    A_KICKER="ABOUT", A_H2="Harmony について",
+    A_P1="Harmony は独立開発者 zgybw が作るローカル AI 映像制作スタジオです。画像編集、レイヤー、ローカル AI 画像生成、バッチパイプラインを一つのデスクトップアプリに集約し、写真館・工房・短編動画クリエイターの制作現場のために設計しました。",
+    A_P2="ローカル実行にこだわります。モデルも素材も自分の PC の中にあり、オフラインで動作します。生成が第三者のサーバーを経由することはなく、お客様の写真が店の外に出ることもありません。",
+    A_FEATS=["100% ローカル実行、オフラインで利用可能", "素材と作品はアップロードされず、データは PC 内に留まります",
+             "オフライン署名ライセンス、アカウント登録・サーバー確認なし", "買い切り、2.x の間は無料アップデート"],
+    INFO_TITLE="製品情報",
+    INFO=[("製品名", "Harmony"), ("種別", "デスクトップ AI 映像制作ソフト"),
+          ("対応 OS", "Windows"), ("現在のバージョン", "v2.0"),
+          ("認証方式", "オフライン署名 · PC 1台に紐付け"), ("開発者", "zgybw（独立開発）")],
+    V_KICKER="PRINCIPLES", V_H2="私たちのこだわり",
+    V_DESC="制作現場の道具は、いくつかのシンプルな約束を守り続けることで信頼を得ます。",
+    VAL1T="ローカル優先", VAL1P="すべての生成は自分の PC で完結。クラウドに依存せず、オフラインでも働きます。",
+    VAL2T="データは外に出ない", VAL2P="素材・モデル・完成品はすべてあなたの PC の中。どこにもアップロードしません。",
+    VAL3T="買い切り", VAL3P="サブスクも従量課金もありません。買えばずっと使えます。",
+    VAL4T="オフライン認証", VAL4P="署名付きライセンスファイルでオフライン認証。登録もサーバー確認も不要です。",
+    VAL5T="継続アップデート", VAL5P="2.x の間は無料アップデート。アプリ内の確認からワンクリックで更新できます。",
+    VAL6T="独立開発", VAL6P="独立開発者が制作・保守します。フィードバックは本人に直接届きます。",
+    T_KICKER="HISTORY", T_H2="製品の歩み",
+    T_DESC="命名から正式リリースまで、Harmony の一歩一歩は実際の制作ニーズに応えたものです。",
+    TL=[("2026.10", "Harmony と命名", "ローカル優先の製品方針と商用プランを確定：買い切り、オフライン署名ライセンス、PC 1台への紐付け。"),
+        ("2026.11", "バッチパイプライン公開", "写真館・工房向けのバッチ処理：フォルダを入れて完成品を出す。失敗はスキップ、中断したジョブは再開できます。"),
+        ("2026.11", "スマホリモコン公開", "QR コードで PC に接続し、LAN 内でスマホから生成を操作。データは店の外に出ません。"),
+        ("2026.11", "Harmony 2.0 正式リリース", "初の正式版を公開。アプリ内自動アップデート（確認・ダウンロード・インストール）まで一貫して動作します。")],
     SH_KICKER="ショーケース", SH_H2="Harmony の画面",
     SH_DESC="実際の UI スクリーンショットと、Harmony 自身の AI で生成した作例を掲載予定です。",
     SHOT1="作例 1 · サイバーパンク", SHOT2="作例 2 · 水墨山水",
@@ -204,151 +448,246 @@ JA = dict(
            "ライセンスは PC 1台に紐付きます。注文時にメールアドレスと、アプリの「システム → ライセンス管理」に表示されるマシン コードをお知らせください。PC の買い替えや Windows の再インストール時は、新しいマシン コードで無料で付け替えます（旧ライセンスは同時に失効します）。"),
           ("返金はできますか？",
            "Harmony はデジタル製品です。購入前に 7 日間の全機能無料試用をご用意していますので、お使いの PC や用途に合うかをまずお試しください。デジタル製品は交付後の返却ができないため、購入後の返金はお受けできません。")],
-    FOOT_BINANCE="Binance Square @zgybw",
-    FOOT_PRODUCTS="製品",
-    FOOT_NOTE="ここは zgybw の製品サイトです。Harmony は現在販売中の製品で、今後さらに製品が加わります。購入・フィードバック・コラボのご相談は上の連絡先からどうぞ。",
-)
-
-
-def afeats_html(feats):
-    return '\n'.join('          <li>%s</li>' % f for f in feats)
-
-def info_html(rows):
-    return '\n'.join(
-        '        <div class="irow"><span>%s</span><b>%s</b></div>' % (k, v)
-        for k, v in rows)
-
-def timeline_html(items):
-    return '\n'.join(
-        '      <div class="tl-item reveal"><span class="tl-date">%s</span><h3>%s</h3><p>%s</p></div>' % (d, h, t)
-        for d, h, t in items)
-
-
-EXTRA = {
-'index.html': dict(
-    TOPBAR_TXT="本地 AI 视觉生产工作台 · 数据不出本机",
-    TOPBAR_RIGHT="Harmony v2.0 已发布",
-    NAV_ABOUT="关于",
-    A_KICKER="ABOUT", A_H2="关于 Harmony",
-    A_P1="Harmony 是由独立开发者 zgybw 打造的本地 AI 视觉生产工作台：把图像编辑、图层、本地 AI 生图与批量流水线收拢到一个桌面软件里，为照相馆、工作室与短视频创作者的生产场景而做。",
-    A_P2="它坚持本地运行的路线：模型与素材都在你自己的电脑上，断网可用；生成全程不经过任何第三方服务器，客户照片不出店、不出本机。",
-    A_FEATS=["100% 本地运行，断网可用", "素材与作品不上传，数据不出本机",
-             "离线签名授权，不注册账号、不联网验证", "一次买断，2.x 版本内免费更新"],
-    INFO_TITLE="产品信息",
-    INFO=[("产品名称", "Harmony"), ("产品类型", "桌面 AI 视觉生产软件"),
-          ("运行平台", "Windows"), ("当前版本", "v2.0"),
-          ("授权方式", "离线签名 · 绑定一台电脑"), ("开发者", "zgybw（独立开发）")],
-    V_KICKER="PRINCIPLES", V_H2="我们的坚持",
-    V_DESC="做给生产场景用的工具，靠的是把几件简单的事一直做对。",
-    VAL1T="本地优先", VAL1P="全部生成在本机完成，不依赖云端服务，断网照样开工。",
-    VAL2T="数据不出本机", VAL2P="素材、模型与作品都在你的电脑上，不上传任何服务器。",
-    VAL3T="一次买断", VAL3P="没有订阅，没有按量计费；买了就是你的，一直能用。",
-    VAL4T="离线授权", VAL4P="签名授权文件离线激活，不注册、不绑账号、不回连验证。",
-    VAL5T="持续更新", VAL5P="2.x 版本内免费更新，软件内检查更新、一键升级。",
-    VAL6T="独立开发", VAL6P="由独立开发者制作与维护，反馈直达本人，不绕客服工单。",
-    T_KICKER="HISTORY", T_H2="产品历程",
-    T_DESC="从定名到正式发布，Harmony 的每一步都落在真实的生产需求上。",
-    TL=[("2026.10", "产品定名 Harmony", "确定本地优先的产品路线与商业化方案：一次性买断、离线签名授权、绑定一台电脑。"),
-        ("2026.11", "批量流水线上线", "面向照相馆与工作室的批量处理流水线：文件夹进、成品出，失败跳过、断点续跑。"),
-        ("2026.11", "手机遥控上线", "手机扫码连接电脑，在局域网内遥控生成；数据不出店，遥控本身就是卖点。"),
-        ("2026.11", "Harmony 2.0 正式发布", "首个正式版本发布，软件内自动更新链路打通：检查更新、下载、安装一气呵成。")],
-    CTA_H="先免费试用 7 天，再决定买不买", CTA_P="全功能开放试用，试用期间的作品与设置在激活后完整保留。",
-    CTA_BTN="¥269 购买专业版",
-    F_ABOUT_P="本地 AI 视觉生产工具，全部在你自己的电脑上运行。由 zgybw 独立制作与维护。",
-    F_COL_P="产品", F_COL_R="资源", F_COL_C="联系",
-    F_RES1="示例包下载", F_RES2="版本发布",
-    F_WECHAT="微信 · zgybw（扫码添加）",
-),
-'en.html': dict(
-    TOPBAR_TXT="Local AI visual production studio · Your data stays on your PC",
-    TOPBAR_RIGHT="Harmony v2.0 released",
-    NAV_ABOUT="About",
-    A_KICKER="ABOUT", A_H2="About Harmony",
-    A_P1="Harmony is a local AI visual production studio built by independent developer zgybw. It brings image editing, layers, local AI image generation and batch pipelines into one desktop app, made for photo studios, workshops and short-video creators.",
-    A_P2="It runs the local route on purpose: models and media live on your own computer and it works fully offline. Nothing passes through a third-party server — client photos never leave your shop or your machine.",
-    A_FEATS=["100% local — works fully offline", "Media and work never upload; data stays on your PC",
-             "Offline signed license — no account, no phone-home", "One-time purchase, free updates within 2.x"],
-    INFO_TITLE="Product info",
-    INFO=[("Product", "Harmony"), ("Type", "Desktop AI visual production app"),
-          ("Platform", "Windows"), ("Current version", "v2.0"),
-          ("Licensing", "Offline signed file · one computer"), ("Developer", "zgybw (independent)")],
-    V_KICKER="PRINCIPLES", V_H2="What we stand by",
-    V_DESC="A tool for production work earns its place by getting a few simple things right, every time.",
-    VAL1T="Local first", VAL1P="Every generation runs on your machine. No cloud dependency — it works offline.",
-    VAL2T="Data stays put", VAL2P="Media, models and finished work live on your computer and upload nowhere.",
-    VAL3T="Buy once", VAL3P="No subscription, no per-use fees. You buy it, you own it, it keeps working.",
-    VAL4T="Offline licensing", VAL4P="A signed license file activates offline — no account, no server check-in.",
-    VAL5T="Kept current", VAL5P="Free updates within the 2.x line, with in-app update checks and one-click upgrades.",
-    VAL6T="Independent", VAL6P="Made and maintained by an independent developer — feedback reaches the person who builds it.",
-    T_KICKER="HISTORY", T_H2="Product history",
-    T_DESC="From naming to release, every step of Harmony answers a real production need.",
-    TL=[("2026.10", "Named Harmony", "The local-first product route and commercial plan were set: one-time purchase, offline signed licensing, one computer per license."),
-        ("2026.11", "Batch pipeline shipped", "Folder-in, finished-out batch processing for photo studios and workshops — failures skip, interrupted jobs resume."),
-        ("2026.11", "Phone remote shipped", "Scan to connect and drive generation from your phone over the LAN. Data never leaves the shop — the remote is a feature, not a relay."),
-        ("2026.11", "Harmony 2.0 released", "First formal release, with the in-app auto-update chain complete: check, download and install in one flow.")],
-    CTA_H="Try everything free for 7 days", CTA_P="Every feature is open during the trial, and your work and settings carry over when you activate.",
-    CTA_BTN="Buy Pro — ¥269",
-    F_ABOUT_P="Local AI visual production tools that run entirely on your own machine. Built and maintained by zgybw.",
-    F_COL_P="Product", F_COL_R="Resources", F_COL_C="Contact",
-    F_RES1="Sample pack download", F_RES2="Releases",
-    F_WECHAT="WeChat — scan to add",
-),
-'ja.html': dict(
-    TOPBAR_TXT="ローカル AI 映像制作スタジオ · データは PC の外に出ません",
-    TOPBAR_RIGHT="Harmony v2.0 リリース",
-    NAV_ABOUT="概要",
-    A_KICKER="ABOUT", A_H2="Harmony について",
-    A_P1="Harmony は独立開発者 zgybw が作るローカル AI 映像制作スタジオです。画像編集、レイヤー、ローカル AI 画像生成、バッチパイプラインを一つのデスクトップアプリに集約し、写真館・工房・短編動画クリエイターの制作現場のために設計しました。",
-    A_P2="ローカル実行にこだわります。モデルも素材も自分の PC の中にあり、オフラインで動作します。生成が第三者のサーバーを経由することはなく、お客様の写真が店の外に出ることもありません。",
-    A_FEATS=["100% ローカル実行、オフラインで利用可能", "素材と作品はアップロードされず、データは PC 内に留まります",
-             "オフライン署名ライセンス、アカウント登録・サーバー確認なし", "買い切り、2.x の間は無料アップデート"],
-    INFO_TITLE="製品情報",
-    INFO=[("製品名", "Harmony"), ("種別", "デスクトップ AI 映像制作ソフト"),
-          ("対応 OS", "Windows"), ("現在のバージョン", "v2.0"),
-          ("認証方式", "オフライン署名 · PC 1台に紐付け"), ("開発者", "zgybw（独立開発）")],
-    V_KICKER="PRINCIPLES", V_H2="私たちのこだわり",
-    V_DESC="制作現場の道具は、いくつかのシンプルな約束を守り続けることで信頼を得ます。",
-    VAL1T="ローカル優先", VAL1P="すべての生成は自分の PC で完結。クラウドに依存せず、オフラインでも働きます。",
-    VAL2T="データは外に出ない", VAL2P="素材・モデル・完成品はすべてあなたの PC の中。どこにもアップロードしません。",
-    VAL3T="買い切り", VAL3P="サブスクも従量課金もありません。買えばずっと使えます。",
-    VAL4T="オフライン認証", VAL4P="署名付きライセンスファイルでオフライン認証。登録もサーバー確認も不要です。",
-    VAL5T="継続アップデート", VAL5P="2.x の間は無料アップデート。アプリ内の確認からワンクリックで更新できます。",
-    VAL6T="独立開発", VAL6P="独立開発者が制作・保守します。フィードバックは本人に直接届きます。",
-    T_KICKER="HISTORY", T_H2="製品の歩み",
-    T_DESC="命名から正式リリースまで、Harmony の一歩一歩は実際の制作ニーズに応えたものです。",
-    TL=[("2026.10", "Harmony と命名", "ローカル優先の製品方針と商用プランを確定：買い切り、オフライン署名ライセンス、PC 1台への紐付け。"),
-        ("2026.11", "バッチパイプライン公開", "写真館・工房向けのバッチ処理：フォルダを入れて完成品を出す。失敗はスキップ、中断したジョブは再開できます。"),
-        ("2026.11", "スマホリモコン公開", "QR コードで PC に接続し、LAN 内でスマホから生成を操作。データは店の外に出ません。"),
-        ("2026.11", "Harmony 2.0 正式リリース", "初の正式版を公開。アプリ内自動アップデート（確認・ダウンロード・インストール）まで一貫して動作します。")],
     CTA_H="まずは 7日間、無料で全機能をお試しください", CTA_P="トライアル中の作品と設定は、アクティベーション後もそのまま引き継がれます。",
     CTA_BTN="Pro を購入 — ¥269",
-    F_ABOUT_P="ローカル AI 映像制作ツール。すべて自分の PC で動作します。zgybw が独立して制作・保守しています。",
-    F_COL_P="製品", F_COL_R="リソース", F_COL_C="連絡先",
-    F_RES1="サンプルパック", F_RES2="リリース",
-    F_WECHAT="WeChat — スキャンして追加",
 ),
 }
 
-for name, t in (('index.html', ZH), ('en.html', EN), ('ja.html', JA)):
-    subs = dict(t)
-    subs.update(EXTRA[name])
-    subs['A_FEATS'] = afeats_html(EXTRA[name]['A_FEATS'])
-    subs['INFO_ROWS'] = info_html(EXTRA[name]['INFO'])
-    subs['TIMELINE'] = timeline_html(EXTRA[name]['TL'])
-    subs['PRICE_FEATS'] = feats_html(t['PRICE_FEATS'])
-    subs['STEPS'] = steps_html(t['STEPS'])
-    subs['FAQS'] = faq_html(t['FAQS'])
-    subs['PAY_CHIPS'] = chips_html(t['PAY_CHIPS'])
-    subs['LSEL_ZH'] = 'on' if name == 'index.html' else ''
-    subs['LSEL_EN'] = 'on' if name == 'en.html' else ''
-    subs['LSEL_JA'] = 'on' if name == 'ja.html' else ''
-    html = TPL
-    for k, v in subs.items():
-        if isinstance(v, str):
-            html = html.replace('@' + k + '@', v)
-    leftover = re.findall(r'@[A-Z0-9_]+@', html)
-    assert not leftover, (name, leftover)
-    assert 'cobalt' not in html and '个人产品' not in html
-    io.open(os.path.join(_ROOT, name), 'w', encoding='utf-8').write(html)
-    print('wrote', name, len(html))
+
+TODO = {
+'zh': dict(
+    LANG="zh-CN",
+    TITLE="拾光待办 · 桌面待办小部件 | zgybw",
+    META="拾光待办：贴在桌面上的待办清单——今日待办、到期提醒、自然语言记时间、周结统计，数据只在本地。免费使用。",
+    TOPBAR_TXT="桌面待办小部件 · 数据只在本地",
+    TOPBAR_RIGHT="拾光待办 v1.5",
+    NAV_FEATURES="功能", NAV_ABOUT="关于", NAV_GET="获取", NAV_CTA="免费获取",
+    HERO_BADGE="免费使用 · 轻量小部件 · 数据在本地",
+    HERO_H1='拾光待办<br>贴在桌面上的待办清单',
+    HERO_LEAD="一个安安静静待在桌面上的小部件：今天要做的事、几点提醒、这周完成了多少，一眼看清。没有账号，没有同步服务器，数据只在你的电脑上。",
+    HERO_CTA1="免费获取", HERO_CTA2="了解功能",
+    HERO_FRAME_T="拾光待办 v1.5", HERO_FRAME_S="Windows 桌面小部件 · 界面截图待补充",
+    ST1B="4 页导航", ST1S="今日 · 历史 · 图片 · 周结", ST2B="中文时间", ST2S="自然语言直接识别",
+    ST3B="提醒 + 贪睡", ST3S="托盘通知不错过", ST4B="免费", ST4S="全部功能免费使用",
+    F_KICKER="功能", F_H2="今天的事，一眼看清",
+    F_DESC="打开电脑就知道今天要做什么，做完一件划掉一件，周末回头一看，这周没白过。",
+    FEAT1T="今日待办", FEAT1P="增删改、标重要、进度环，做完划掉，误删可撤销。",
+    FEAT2T="到期与重复", FEAT2P="日历选时间或快捷预设，重复任务到期自动生成下一条。",
+    FEAT3T="中文自然语言", FEAT3P="「明天下午三点开会」直接识别，不用一格格填时间。",
+    FEAT4T="提醒与贪睡", FEAT4P="提醒条 + 托盘通知，忙着就贪睡一会儿，到点再提醒。",
+    FEAT5T="历史 · 图片 · 周结", FEAT5P="做完的自动归档，图片随手贴，周末一键复制周结。",
+    FEAT6T="数据在本地", FEAT6P="待办存在 exe 旁的 data/ 目录，一键 zip 备份，换电脑拷走就行。",
+    A_KICKER="ABOUT", A_H2="关于拾光待办",
+    A_P1="拾光待办是一个 Windows 桌面待办小部件：无边框圆角小窗，拖到桌面一角，置顶、半透明、缩放都随你。它不抢焦点、不弹广告，只安静地帮你把今天的事一件件做完。",
+    A_P2="用 Qt 6（QML + C++）从零实现，全部功能本地运行：没有账号，没有云同步，待办数据只存在你电脑上的 data/ 目录里。",
+    A_FEATS=["无边框小部件：拖拽 / 缩放 / 置顶 / 透明度", "中文自然语言识别时间",
+             "提醒条 + 托盘通知 + 贪睡", "数据本地存储，一键 zip 备份"],
+    INFO_TITLE="产品信息",
+    INFO=[("产品名称", "拾光待办"), ("产品类型", "桌面待办小部件"),
+          ("运行平台", "Windows"), ("当前版本", "v1.5.0"),
+          ("价格", "免费"), ("开发者", "zgybw（独立开发）")],
+    SH_KICKER="展示", SH_H2="拾光待办长这样",
+    SH_DESC="界面截图正在准备中，先看功能介绍。",
+    SHOT1="今日页", SHOT2="周结页", SHOT_NOTE="截图待补充",
+    G_KICKER="获取", G_H2="免费获取",
+    G_DESC="免费使用，全部功能开放。先从 GitHub 获取，安装包正在准备中。",
+    GET_CARD_T="从 GitHub 获取",
+    GET_CARD_P="源码与构建说明都在 GitHub 上：Windows 下双击 build.bat 即可构建，产物开箱即用。",
+    GET_BTN="去 GitHub 获取 →",
+    GET_NOTE="安装包（解压即用）正在准备中，发布后这里会放上直接下载链接。",
+    REQ_H3="系统要求",
+    REQ_P1="运行只需 <strong style=\"color:var(--ink)\">Windows 10 / 11</strong>，内存占用很小，老电脑也能跑。",
+    REQ_P2="自行构建需要 Qt 6.12 + MSVC2022，构建脚本会自动配置环境，详见仓库 README。",
+    STEPS_H3="三步用上",
+    STEPS=[("获取源码", "在 GitHub 上下载或克隆仓库（Clone or download → Download ZIP 即可）。"),
+           ("双击构建", "双击 build.bat，脚本自动配置 Qt 与编译环境，构建出 ShiguangTodo.exe。"),
+           ("开始使用", "运行 exe，把小部件拖到桌面一角，记下今天的第一件事。")],
+    STEPS_NOTE="待办数据存在 exe 旁边的 data/ 目录里，备份时整个 data/ 拷走就行。",
+    FAQ_H2="常见问题",
+    FAQS=[("免费吗？",
+           "免费，全部功能免费使用，没有内购，没有订阅。"),
+          ("我的待办数据存在哪？",
+           "exe 旁边的 data/ 目录（data.json + images/），不上传任何服务器。设置里可以一键 zip 备份，换电脑把 data/ 拷走就行。"),
+          ("支持哪些系统？",
+           "Windows 10 / 11 桌面端。macOS 与 Linux 暂无计划。"),
+          ("提醒在后台也能收到吗？",
+           "可以。关掉主窗口后程序留在托盘，到点弹出提醒条与系统通知；正忙着可以贪睡，稍后再提醒。"),
+          ("能开机自启吗？",
+           "可以，在设置里打开自启即可；还支持全局热键呼出与语音输入（Windows）。")],
+    CTA_H="把今天的事，一件件做完", CTA_P="免费使用，数据只在本地。",
+    CTA_BTN="去 GitHub 获取 →",
+),
+'en': dict(
+    LANG="en",
+    TITLE="ShiguangTodo · Desktop To-Do Widget | zgybw",
+    META="ShiguangTodo: a to-do list that lives on your desktop — today's tasks, due reminders, natural-language dates and weekly summaries. Your data stays local. Free.",
+    TOPBAR_TXT="Desktop to-do widget · Your data stays local",
+    TOPBAR_RIGHT="ShiguangTodo v1.5",
+    NAV_FEATURES="Features", NAV_ABOUT="About", NAV_GET="Get it", NAV_CTA="Get it free",
+    HERO_BADGE="Free · Lightweight widget · Data stays local",
+    HERO_H1='ShiguangTodo<br>A to-do list on your desktop',
+    HERO_LEAD="A quiet little widget that lives on your desktop: what to do today, when to be reminded, how the week went — all at a glance. No account, no sync server. Your data stays on your computer.",
+    HERO_CTA1="Get it free", HERO_CTA2="See features",
+    HERO_FRAME_T="ShiguangTodo v1.5", HERO_FRAME_S="Windows desktop widget · Screenshots coming soon",
+    ST1B="4 pages", ST1S="Today · History · Images · Weekly", ST2B="Natural language", ST2S="Chinese dates, understood",
+    ST3B="Reminders + snooze", ST3S="Tray notifications keep you on track", ST4B="Free", ST4S="Every feature, free",
+    F_KICKER="Features", F_H2="Today's work, at a glance",
+    F_DESC="Turn on the computer and know what today holds. Check things off one by one, and look back on a week well spent.",
+    FEAT1T="Today's tasks", FEAT1P="Add, edit, mark important, track progress — check off what's done, undo what's not.",
+    FEAT2T="Due dates & repeats", FEAT2P="Pick a date or a quick preset; repeating tasks spawn their next occurrence automatically.",
+    FEAT3T="Natural language", FEAT3P="Type a date in plain Chinese and it's understood — no field-by-field entry.",
+    FEAT4T="Reminders & snooze", FEAT4P="Reminder bar plus tray notifications. Busy? Snooze it and be reminded again later.",
+    FEAT5T="History · Images · Weekly", FEAT5P="Finished tasks archive themselves, images paste right in, and the weekly summary copies out in one click.",
+    FEAT6T="Data stays local", FEAT6P="Tasks live in the data/ folder next to the exe. One-click zip backup; copy the folder to move PCs.",
+    A_KICKER="ABOUT", A_H2="About ShiguangTodo",
+    A_P1="ShiguangTodo is a Windows desktop to-do widget: a frameless rounded window you park in a corner of your desktop — pin it, make it translucent, resize it as you like. It never steals focus, shows no ads, and quietly helps you finish today, one task at a time.",
+    A_P2="Built from scratch with Qt 6 (QML + C++), everything runs locally: no account, no cloud sync — your to-do data lives in the data/ folder on your own computer.",
+    A_FEATS=["Frameless widget: drag, resize, pin, transparency", "Natural-language date parsing in Chinese",
+             "Reminder bar, tray notifications and snooze", "Local storage with one-click zip backup"],
+    INFO_TITLE="Product info",
+    INFO=[("Product", "ShiguangTodo"), ("Type", "Desktop to-do widget"),
+          ("Platform", "Windows"), ("Current version", "v1.5.0"),
+          ("Price", "Free"), ("Developer", "zgybw (independent)")],
+    SH_KICKER="Showcase", SH_H2="What ShiguangTodo looks like",
+    SH_DESC="Screenshots are on the way — the feature tour covers the ground for now.",
+    SHOT1="Today page", SHOT2="Weekly page", SHOT_NOTE="Screenshot coming soon",
+    G_KICKER="Get it", G_H2="Get it free",
+    G_DESC="Free, with every feature open. Grab it from GitHub for now — a ready-to-run package is on the way.",
+    GET_CARD_T="Get it from GitHub",
+    GET_CARD_P="Source and build instructions live on GitHub: on Windows, double-click build.bat to build, and the app is ready to run.",
+    GET_BTN="Get it on GitHub →",
+    GET_NOTE="A ready-to-run package (unzip and go) is being prepared — a direct download link will appear here when it's out.",
+    REQ_H3="System requirements",
+    REQ_P1="To run it: just <strong style=\"color:var(--ink)\">Windows 10 / 11</strong>. It's light on memory and happy on older PCs.",
+    REQ_P2="To build it yourself: Qt 6.12 + MSVC2022. The build script configures the environment automatically — see the repo README.",
+    STEPS_H3="Three steps to using it",
+    STEPS=[("Get the source", "Download or clone the repo from GitHub (Clone or download → Download ZIP works)."),
+           ("Double-click to build", "Run build.bat — the script sets up the Qt and compiler environment and produces ShiguangTodo.exe."),
+           ("Start using it", "Launch the exe, park the widget in a corner, and write down today's first task.")],
+    STEPS_NOTE="Your to-do data lives in the data/ folder next to the exe — copy the whole folder to back it up.",
+    FAQ_H2="Questions",
+    FAQS=[("Is it free?",
+           "Yes — free, with every feature open. No in-app purchases, no subscription."),
+          ("Where does my data live?",
+           "In the data/ folder next to the exe (data.json + images/). Nothing uploads anywhere. One-click zip backup in Settings; copy data/ to move to another PC."),
+          ("Which systems are supported?",
+           "Windows 10 / 11 desktop. macOS and Linux are not planned."),
+          ("Do reminders work in the background?",
+           "Yes. Close the main window and the app stays in the tray, popping a reminder bar and system notification on time. Snooze when you're busy."),
+          ("Can it start with Windows?",
+           "Yes — turn on autostart in Settings. A global hotkey and voice input are also available (Windows).")],
+    CTA_H="Finish today, one task at a time", CTA_P="Free to use. Your data stays local.",
+    CTA_BTN="Get it on GitHub →",
+),
+'ja': dict(
+    LANG="ja",
+    TITLE="拾光待辦 · デスクトップ ToDo ウィジェット | zgybw",
+    META="拾光待辦：デスクトップに貼る ToDo リスト。今日の予定、期限リマインダー、自然言語での日時入力、週次まとめ。データはローカルのみ。無料。",
+    TOPBAR_TXT="デスクトップ ToDo ウィジェット · データはローカルのみ",
+    TOPBAR_RIGHT="拾光待辦 v1.5",
+    NAV_FEATURES="機能", NAV_ABOUT="概要", NAV_GET="入手", NAV_CTA="無料で入手",
+    HERO_BADGE="無料 · 軽量ウィジェット · データはローカル",
+    HERO_H1='拾光待辦<br>デスクトップに貼る ToDo リスト',
+    HERO_LEAD="デスクトップの隅に静かに置いておける小さなウィジェット：今日やること、リマインドの時間、今週の進み具合がひと目でわかります。アカウントも同期サーバーもなし。データは自分の PC の中にだけあります。",
+    HERO_CTA1="無料で入手", HERO_CTA2="機能を見る",
+    HERO_FRAME_T="拾光待辦 v1.5", HERO_FRAME_S="Windows デスクトップウィジェット · スクリーンショット準備中",
+    ST1B="4ページ", ST1S="今日 · 履歴 · 画像 · 週次", ST2B="自然言語", ST2S="中国語の日付をそのまま理解",
+    ST3B="通知 + スヌーズ", ST3S="トレイ通知で見逃さない", ST4B="無料", ST4S="全機能無料",
+    F_KICKER="機能", F_H2="今日の予定が、ひと目でわかる",
+    F_DESC="PC を開けば今日やることがわかる。一つずつ消していって、週末に振り返れば、いい一週間だったとわかります。",
+    FEAT1T="今日の ToDo", FEAT1P="追加・編集・重要マーク・進捗リング。終わったらチェック、間違えたら取り消し。",
+    FEAT2T="期限と繰り返し", FEAT2P="カレンダーで日時を選ぶか、プリセットで指定。繰り返しタスクは次回分を自動生成。",
+    FEAT3T="自然言語入力", FEAT3P="中国語で日時をそのまま書けば理解されます。項目ごとの入力は不要です。",
+    FEAT4T="通知とスヌーズ", FEAT4P="リマインダーバーとトレイ通知。忙しいときはスヌーズして、後でまた通知。",
+    FEAT5T="履歴 · 画像 · 週次", FEAT5P="終わったタスクは自動でアーカイブ、画像はそのまま貼れて、週次まとめはワンクリックでコピー。",
+    FEAT6T="データはローカル", FEAT6P="ToDo は exe の横の data/ フォルダに保存。ワンクリックで zip バックアップ、PC 移行はフォルダをコピーするだけ。",
+    A_KICKER="ABOUT", A_H2="拾光待辦について",
+    A_P1="拾光待辦は Windows のデスクトップ ToDo ウィジェットです。枠のない角丸の小窓をデスクトップの隅に置いて、固定・半透明・リサイズは自由自在。フォーカスを奪わず、広告も出さず、今日のタスクを一つずつ片付ける手伝いだけをします。",
+    A_P2="Qt 6（QML + C++）で一から実装し、すべての機能はローカルで動作します。アカウントもクラウド同期もなく、ToDo データは自分の PC の data/ フォルダの中にだけあります。",
+    A_FEATS=["枠なしウィジェット：ドラッグ / リサイズ / 固定 / 透明度", "中国語の自然言語で日時を認識",
+             "リマインダーバー + トレイ通知 + スヌーズ", "ローカル保存、ワンクリック zip バックアップ"],
+    INFO_TITLE="製品情報",
+    INFO=[("製品名", "拾光待辦"), ("種別", "デスクトップ ToDo ウィジェット"),
+          ("対応 OS", "Windows"), ("現在のバージョン", "v1.5.0"),
+          ("価格", "無料"), ("開発者", "zgybw（独立開発）")],
+    SH_KICKER="ショーケース", SH_H2="拾光待辦の画面",
+    SH_DESC="スクリーンショットは準備中です。まずは機能紹介をご覧ください。",
+    SHOT1="今日ページ", SHOT2="週次ページ", SHOT_NOTE="スクリーンショット準備中",
+    G_KICKER="入手", G_H2="無料で入手",
+    G_DESC="無料で全機能をご利用いただけます。当面は GitHub からどうぞ。解凍してすぐ使えるパッケージを準備中です。",
+    GET_CARD_T="GitHub から入手",
+    GET_CARD_P="ソースコードとビルド手順は GitHub にあります。Windows では build.bat をダブルクリックするだけでビルドでき、そのまま使えます。",
+    GET_BTN="GitHub で入手 →",
+    GET_NOTE="解凍してすぐ使えるパッケージを準備中です。公開され次第、ここに直接ダウンロードリンクを掲載します。",
+    REQ_H3="動作環境",
+    REQ_P1="実行に必要なのは <strong style=\"color:var(--ink)\">Windows 10 / 11</strong> のみ。メモリ使用量も少なく、古い PC でも快適に動きます。",
+    REQ_P2="自分でビルドする場合は Qt 6.12 + MSVC2022 が必要です。ビルドスクリプトが環境を自動で設定します。詳しくはリポジトリの README をご覧ください。",
+    STEPS_H3="3ステップで使い始める",
+    STEPS=[("ソースを取得", "GitHub からリポジトリをダウンロードまたはクローンします（Clone or download → Download ZIP で十分です）。"),
+           ("ダブルクリックでビルド", "build.bat を実行すると、スクリプトが Qt とコンパイラ環境を自動で設定し、ShiguangTodo.exe を生成します。"),
+           ("使い始める", "exe を起動し、ウィジェットをデスクトップの隅に置いて、今日の最初のタスクを書き込みます。")],
+    STEPS_NOTE="ToDo データは exe の横の data/ フォルダにあります。バックアップは data/ フォルダごとコピーするだけです。",
+    FAQ_H2="よくある質問",
+    FAQS=[("無料ですか？",
+           "はい、無料で全機能をご利用いただけます。アプリ内課金もサブスクリプションもありません。"),
+          ("ToDo データはどこに保存されますか？",
+           "exe の横の data/ フォルダ（data.json + images/）に保存され、どこにもアップロードされません。設定からワンクリックで zip バックアップができ、PC 移行は data/ をコピーするだけです。"),
+          ("対応 OS は？",
+           "Windows 10 / 11 のデスクトップです。macOS と Linux の予定はありません。"),
+          ("バックグラウンドでも通知は届きますか？",
+           "はい。メインウィンドウを閉じてもトレイに常駐し、時間になればリマインダーバーとシステム通知を表示します。忙しいときはスヌーズできます。"),
+          ("Windows 起動時に自動起動できますか？",
+           "はい、設定から自動起動を有効にできます。グローバルホットキーでの呼び出しと音声入力にも対応しています（Windows）。")],
+    CTA_H="今日のことを、一つずつ片付けよう", CTA_P="無料でご利用いただけます。データはローカルのみ。",
+    CTA_BTN="GitHub で入手 →",
+),
+}
+
+CONTENT = {'home': HOME, 'harmony': HARMONY, 'todo': TODO}
+
+for page_set, langs in SETS.items():
+    for lang, name in langs.items():
+        subs = dict(SHARED[lang])
+        subs.update(CONTENT[page_set][lang])
+        subs['STYLE'] = STYLE
+        subs['HOME_URL'] = SETS['home'][lang]
+        subs['HARMONY_URL'] = SETS['harmony'][lang]
+        subs['TODO_URL'] = SETS['todo'][lang]
+        subs['LANG_ZH_URL'] = SETS[page_set]['zh']
+        subs['LANG_EN_URL'] = SETS[page_set]['en']
+        subs['LANG_JA_URL'] = SETS[page_set]['ja']
+        subs['LSEL_ZH'] = 'on' if lang == 'zh' else ''
+        subs['LSEL_EN'] = 'on' if lang == 'en' else ''
+        subs['LSEL_JA'] = 'on' if lang == 'ja' else ''
+        if page_set == 'harmony':
+            subs['CRUMB_SELF'] = 'Harmony'
+        elif page_set == 'todo':
+            subs['CRUMB_SELF'] = subs['TODO_NAME']
+        if 'A_FEATS' in subs:
+            subs['A_FEATS'] = afeats_html(subs['A_FEATS'])
+        if 'INFO' in subs:
+            subs['INFO_ROWS'] = info_html(subs['INFO'])
+        if 'TL' in subs:
+            subs['TIMELINE'] = timeline_html(subs['TL'])
+        if 'PRICE_FEATS' in subs:
+            subs['PRICE_FEATS'] = feats_html(subs['PRICE_FEATS'])
+        if 'STEPS' in subs:
+            subs['STEPS'] = steps_html(subs['STEPS'])
+        if 'FAQS' in subs:
+            subs['FAQS'] = faq_html(subs['FAQS'])
+        if 'PAY_CHIPS' in subs:
+            subs['PAY_CHIPS'] = chips_html(subs['PAY_CHIPS'])
+        if 'H_CHIPS' in subs:
+            subs['H_CHIPS'] = chips_html(subs['H_CHIPS'])
+        if 'T_CHIPS' in subs:
+            subs['T_CHIPS'] = chips_html(subs['T_CHIPS'])
+        html = TPL[page_set]
+        for k, v in subs.items():
+            if isinstance(v, str):
+                html = html.replace('@' + k + '@', v)
+        leftover = re.findall(r'@[A-Z0-9_]+@', html)
+        assert not leftover, (name, leftover)
+        assert 'cobalt' not in html and '个人产品' not in html
+        io.open(os.path.join(_ROOT, name), 'w', encoding='utf-8').write(html)
+        print('wrote', name, len(html))
 print('OK')

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="@LANG@">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>@TITLE@</title>
+<meta name="description" content="@META@">
+<link rel="alternate" hreflang="zh-CN" href="@LANG_ZH_URL@">
+<link rel="alternate" hreflang="en" href="@LANG_EN_URL@">
+<link rel="alternate" hreflang="ja" href="@LANG_JA_URL@">
+<style>
+@STYLE@
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>@TOPBAR_TXT@</span>
+    <span class="tb-r">@TOPBAR_RIGHT@</span>
+  </div>
+</div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="@HOME_URL@"><span class="mark">z</span><span>zgybw <small>@FOOT_PRODUCTS@</small></span></a>
+    <ul>
+      <li><a class="navlink hideS" href="#features">@NAV_FEATURES@</a></li>
+      <li><a class="navlink hideS" href="#about">@NAV_ABOUT@</a></li>
+      <li><a class="navlink hideS" href="#showcase">@NAV_SHOWCASE@</a></li>
+      <li><a class="navlink hideS" href="#buy">@NAV_PRICING@</a></li>
+      <li><a class="navlink hideS" href="#faq">FAQ</a></li>
+      <li class="langsel"><a href="@LANG_ZH_URL@" class="@LSEL_ZH@">中文</a><a href="@LANG_EN_URL@" class="@LSEL_EN@">EN</a><a href="@LANG_JA_URL@" class="@LSEL_JA@">日本語</a></li>
+      <li><a class="nav-cta" href="#buy">@NAV_BUY@</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="crumb"><div class="wrap"><a href="@HOME_URL@">@CRUMB_ALL@</a> / @CRUMB_SELF@</div></div>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="badge reveal">@HERO_BADGE@</div>
+    <h1 class="reveal">@HERO_H1@</h1>
+    <p class="lead reveal">@HERO_LEAD@</p>
+    <div class="cta reveal">
+      <a class="btn primary" href="#buy">@HERO_CTA1@</a>
+      <a class="btn ghost" href="#features">@HERO_CTA2@</a>
+    </div>
+    <div class="frame reveal">
+      <div class="frame-bar"><i></i><i></i><i></i></div>
+      <img class="frame-img" src="assets/ui.png" alt="@HERO_IMG_ALT@">
+    </div>
+  </div>
+</header>
+
+<div class="databand">
+  <div class="wrap">
+    <div class="stat reveal"><b>@ST1B@</b><small>@ST1S@</small></div>
+    <div class="stat reveal"><b>@ST2B@</b><small>@ST2S@</small></div>
+    <div class="stat reveal"><b>@ST3B@</b><small>@ST3S@</small></div>
+    <div class="stat reveal"><b>@ST4B@</b><small>@ST4S@</small></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="block" id="features">
+    <div class="sechead reveal">
+      <div class="kicker">@F_KICKER@</div>
+      <h2 class="sec">@F_H2@</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">@F_DESC@</p>
+    </div>
+    <div class="grid cols3">
+      <div class="card reveal"><div class="icon">🖼</div><h3>@FEAT1T@</h3><p>@FEAT1P@</p></div>
+      <div class="card reveal"><div class="icon">✨</div><h3>@FEAT2T@</h3><p>@FEAT2P@</p></div>
+      <div class="card reveal"><div class="icon">🎬</div><h3>@FEAT3T@</h3><p>@FEAT3P@</p></div>
+      <div class="card reveal"><div class="icon">📝</div><h3>@FEAT4T@</h3><p>@FEAT4P@</p></div>
+      <div class="card reveal"><div class="icon">📦</div><h3>@FEAT5T@</h3><p>@FEAT5P@</p></div>
+      <div class="card reveal"><div class="icon">🔒</div><h3>@FEAT6T@</h3><p>@FEAT6P@</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="sechead left reveal">
+      <div class="kicker">@A_KICKER@</div>
+      <h2 class="sec">@A_H2@</h2>
+      <div class="secbar"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-txt reveal">
+        <p>@A_P1@</p>
+        <p>@A_P2@</p>
+        <ul class="afeats">
+@A_FEATS@
+        </ul>
+      </div>
+      <div class="infocard reveal">
+        <div class="ihead">@INFO_TITLE@</div>
+@INFO_ROWS@
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="band" id="values">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <div class="kicker">@V_KICKER@</div>
+      <h2 class="sec">@V_H2@</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">@V_DESC@</p>
+    </div>
+    <div class="grid cols3">
+      <div class="card reveal"><div class="icon">🏠</div><h3>@VAL1T@</h3><p>@VAL1P@</p></div>
+      <div class="card reveal"><div class="icon">🛡</div><h3>@VAL2T@</h3><p>@VAL2P@</p></div>
+      <div class="card reveal"><div class="icon">💎</div><h3>@VAL3T@</h3><p>@VAL3P@</p></div>
+      <div class="card reveal"><div class="icon">🔑</div><h3>@VAL4T@</h3><p>@VAL4P@</p></div>
+      <div class="card reveal"><div class="icon">🔄</div><h3>@VAL5T@</h3><p>@VAL5P@</p></div>
+      <div class="card reveal"><div class="icon">👋</div><h3>@VAL6T@</h3><p>@VAL6P@</p></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="block" id="history">
+    <div class="sechead reveal">
+      <div class="kicker">@T_KICKER@</div>
+      <h2 class="sec">@T_H2@</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">@T_DESC@</p>
+    </div>
+    <div class="timeline">
+@TIMELINE@
+    </div>
+  </section>
+
+  <section class="block" id="showcase">
+    <div class="sechead reveal">
+      <div class="kicker">@SH_KICKER@</div>
+      <h2 class="sec">@SH_H2@</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">@SH_DESC@</p>
+    </div>
+    <div class="show-grid">
+      <div class="shot reveal"><div class="shot-label">@SHOT1@<span>showcase/style-1.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">@SHOT2@<span>showcase/style-2.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">@SHOT3@<span>showcase/style-3.png</span></div></div>
+      <div class="shot reveal"><div class="shot-label">@SHOT4@<span>showcase/style-4.png</span></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="buy">
+    <div class="sechead reveal">
+      <div class="kicker">@B_KICKER@</div>
+      <h2 class="sec">@B_H2@</h2>
+      <div class="secbar"></div>
+      <p class="secdesc">@B_DESC@</p>
+    </div>
+    <div class="grid cols2">
+      <div class="card price-card reveal">
+        <span class="price-badge">@PRICE_BADGE@</span>
+        <h3>@PRICE_NAME@</h3>
+        <div class="price-row">
+          <span class="price-now">¥269</span>
+          <span class="price-was">¥399</span>
+          <span class="price-note">@PRICE_NOTE@</span>
+        </div>
+        <ul class="price-feats">
+@PRICE_FEATS@
+        </ul>
+        <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
+        <a class="btn primary" href="#contact" id="afdian-link">@BUY_BTN@</a>
+        <div class="paychips">@PAY_CHIPS@</div>
+        <p class="fineprint">@BUY_NOTE@</p>
+      </div>
+      <div class="card reveal">
+        <h3>@CFG_H3@</h3>
+        <p>@CFG_P1@</p>
+        <p style="margin-top:10px">@CFG_P2@</p>
+      </div>
+    </div>
+    <h3 class="reveal" style="margin:36px 0 16px;font-size:1.08rem">@STEPS_H3@</h3>
+    <div class="steps">
+@STEPS@
+    </div>
+    <p class="fineprint reveal">@STEPS_NOTE@</p>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="sechead reveal">
+      <div class="kicker">FAQ</div>
+      <h2 class="sec">@FAQ_H2@</h2>
+      <div class="secbar"></div>
+    </div>
+@FAQS@
+  </section>
+
+</main>
+
+<div class="ctaband">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>@CTA_H@</h2>
+      <p>@CTA_P@</p>
+    </div>
+    <a class="btn primary reveal" href="#buy">@CTA_BTN@</a>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand"><span class="mark">z</span><span>zgybw</span></div>
+        <p class="fabout">@F_ABOUT_P@</p>
+      </div>
+      <div>
+        <h4>@F_COL_P@</h4>
+        <ul>
+          <li><a href="@HARMONY_URL@">Harmony</a></li>
+          <li><a href="@TODO_URL@">@TODO_NAME@</a></li>
+          <li><a href="@HOME_URL@">@F_PROD_ALL@</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>@F_COL_R@</h4>
+        <ul>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/download/harmony/Harmony-examples.zip">@F_RES1@</a></li>
+          <li><a href="https://github.com/zgybw30/zgybw30.github.io/releases/tag/harmony">@F_RES2@</a></li>
+          <li><a href="https://github.com/zgybw30/todo">@F_RES3@</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>@F_COL_C@</h4>
+        <ul>
+          <li><a href="https://x.com/zgybw" target="_blank" rel="noopener">𝕏 @zgybw</a></li>
+          <li><img class="wxqr" src="assets/wechat-qr.jpg" alt="@F_WECHAT@"><div class="wxcap">@F_WECHAT@</div></li>
+          <li><span style="font-size:.88rem">@FOOT_BINANCE@</span></li>
+          <li><span class="langsel"><a href="@LANG_ZH_URL@" class="@LSEL_ZH@">中文</a><a href="@LANG_EN_URL@" class="@LSEL_EN@">EN</a><a href="@LANG_JA_URL@" class="@LSEL_JA@">日本語</a></span></li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">@FOOT_NOTE@</p>
+    <div class="fbar">
+      <span>© <span id="year">2026</span> zgybw</span>
+      <span>@TOPBAR_RIGHT@</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+
+</body>
+</html>
