@@ -150,6 +150,8 @@
     display:flex;align-items:center;justify-content:center;text-align:center;padding:26px 18px;aspect-ratio:4/3}
   .shot .shot-label{font-weight:700;font-size:.98rem}
   .shot .shot-label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted);margin-top:7px}
+  .showcase-img{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg)}
+  .showcase-img img{display:block;width:100%}
   /* ---------- 价格 ---------- */
   .price-card{overflow:visible}
   .price-card::before{border-radius:14px 14px 0 0}
@@ -383,14 +385,11 @@
       <div class="kicker">展示</div>
       <h2 class="sec">Harmony 长这样</h2>
       <div class="secbar"></div>
-      <p class="secdesc">界面展示用软件真实截图；风格样张由 Harmony 的 AI 生图生成。</p>
+      <p class="secdesc">下面这张拼贴里的每一张图，都是 Harmony 生成或处理出来的：风景、电商广告、时尚人像、证件照、老照片修复。</p>
     </div>
-    <div class="show-grid">
-      <div class="shot reveal"><div class="shot-label">风格样张 1 · 赛博朋克<span>showcase/style-1.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">风格样张 2 · 水墨山水<span>showcase/style-2.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">风格样张 3 · 极简几何<span>showcase/style-3.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">风格样张 4 · 电影感写实<span>showcase/style-4.png</span></div></div>
-    </div>
+    <figure class="showcase-img reveal">
+      <img src="assets/showcase-collage.jpg" alt="Harmony 生成与处理的作品拼贴">
+    </figure>
   </section>
 
   <section class="block" id="buy">

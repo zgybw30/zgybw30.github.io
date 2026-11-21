@@ -150,6 +150,8 @@
     display:flex;align-items:center;justify-content:center;text-align:center;padding:26px 18px;aspect-ratio:4/3}
   .shot .shot-label{font-weight:700;font-size:.98rem}
   .shot .shot-label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted);margin-top:7px}
+  .showcase-img{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg)}
+  .showcase-img img{display:block;width:100%}
   /* ---------- 价格 ---------- */
   .price-card{overflow:visible}
   .price-card::before{border-radius:14px 14px 0 0}
@@ -383,14 +385,11 @@
       <div class="kicker">Showcase</div>
       <h2 class="sec">What Harmony looks like</h2>
       <div class="secbar"></div>
-      <p class="secdesc">Real UI screenshots; style samples generated with Harmony's own AI engine.</p>
+      <p class="secdesc">Every image in the collage below was generated or processed with Harmony: landscapes, e-commerce ads, fashion portraits, ID photos, old-photo restoration.</p>
     </div>
-    <div class="show-grid">
-      <div class="shot reveal"><div class="shot-label">Style sample 1 · Cyberpunk<span>showcase/style-1.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 2 · Ink landscape<span>showcase/style-2.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 3 · Minimal geometry<span>showcase/style-3.png</span></div></div>
-      <div class="shot reveal"><div class="shot-label">Style sample 4 · Cinematic realism<span>showcase/style-4.png</span></div></div>
-    </div>
+    <figure class="showcase-img reveal">
+      <img src="assets/showcase-collage.jpg" alt="Collage of works generated and processed with Harmony">
+    </figure>
   </section>
 
   <section class="block" id="buy">
