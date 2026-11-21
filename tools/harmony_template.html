@@ -173,16 +173,27 @@
         <ul class="price-feats">
 @PRICE_FEATS@
         </ul>
-        <!-- 爱发电商品上架后：把 href 换成商品链接即可 -->
-        <a class="btn primary" href="#contact" id="afdian-link">@BUY_BTN@</a>
-        <div class="paychips">@PAY_CHIPS@</div>
-        <p class="fineprint">@BUY_NOTE@</p>
+        <a class="btn primary" href="#contact">@BUY_BTN@</a>
       </div>
-      <div class="card reveal">
-        <h3>@CFG_H3@</h3>
-        <p>@CFG_P1@</p>
-        <p style="margin-top:10px">@CFG_P2@</p>
+      <div class="card price-card reveal">
+        <span class="price-badge">@PRICE2_BADGE@</span>
+        <h3>@PRICE2_NAME@</h3>
+        <div class="price-row">
+          <span class="price-now">¥689</span>
+          <span class="price-note">@PRICE2_NOTE@</span>
+        </div>
+        <ul class="price-feats">
+@PRICE2_FEATS@
+        </ul>
+        <a class="btn primary" href="#contact">@BUY2_BTN@</a>
       </div>
+    </div>
+    <div class="paychips reveal">@PAY_CHIPS@</div>
+    <p class="fineprint reveal">@BUY_NOTE@</p>
+    <div class="card reveal" style="margin-top:20px">
+      <h3>@CFG_H3@</h3>
+      <p>@CFG_P1@</p>
+      <p style="margin-top:10px">@CFG_P2@</p>
     </div>
     <h3 class="reveal" style="margin:36px 0 16px;font-size:1.08rem">@STEPS_H3@</h3>
     <div class="steps">
