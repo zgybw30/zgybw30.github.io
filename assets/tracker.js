@@ -1,4 +1,4 @@
-/* zgybw30.github.io 访客统计埋点脚本
+/* zybw30.github.io 访客统计埋点脚本
  *
  * 部署步骤（见 README）：
  *  1. 把下面的 WORKER_URL 换成真实的 Worker 地址，例如
