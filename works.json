@@ -1,5 +1,5 @@
 {
-    "updated": "2026-11-21T22:58:40+08:00",
+    "updated": "2026-11-22T17:56:32+08:00",
     "version": 1,
     "works": [
         {
@@ -96,6 +96,17 @@
             "seed": 150858311,
             "series": "其他",
             "title": "电商产品配文字",
+            "width": 1344
+        },
+        {
+            "date": "2026-11-22",
+            "height": 768,
+            "id": "20261122-175626",
+            "image": "https://zgybw30.github.io/works/img/20261122-175626.jpg",
+            "model": "qwen_image_2.1_Q8_0.gguf",
+            "seed": 166523389,
+            "series": "其他",
+            "title": "光影之剑",
             "width": 1344
         }
     ]
