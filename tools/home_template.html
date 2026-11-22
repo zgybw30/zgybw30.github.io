@@ -12,7 +12,7 @@
 @STYLE@
 </style>
 </head>
-<body>
+<body class="gallery">
 
 <div class="topbar">
   <div class="wrap">
@@ -36,13 +36,20 @@
 
 <header class="hero">
   <div class="hero-grid"></div>
-  <div class="wrap">
-    <div class="badge reveal">@HERO_BADGE@</div>
-    <h1 class="reveal">@HERO_H1@</h1>
-    <p class="lead reveal">@HERO_LEAD@</p>
-    <div class="cta reveal">
-      <a class="btn primary" href="#products">@HERO_CTA1@</a>
-      <a class="btn ghost" href="#contact">@HERO_CTA2@</a>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <div class="badge reveal">@HERO_BADGE@</div>
+      <h1 class="reveal">@HERO_H1@</h1>
+      <p class="lead reveal">@HERO_LEAD@</p>
+      <div class="cta reveal">
+        <a class="btn primary" href="#products">@HERO_CTA1@</a>
+        <a class="btn ghost" href="#contact">@HERO_CTA2@</a>
+      </div>
+    </div>
+    <div class="hero-imgs reveal">
+      <img class="hero-main" src="works/img/20261114-183525.jpg" alt="@HERO_CAP@">
+      <img class="hero-sub" src="works/img/20261114-183143.jpg" alt="@HERO_SUB@">
+      <div class="hero-cap">@HERO_CAP@</div>
     </div>
   </div>
 </header>
@@ -65,8 +72,8 @@
       <div class="secbar"></div>
       <p class="secdesc">@P_DESC@</p>
     </div>
-    <div class="grid cols3">
-      <div class="card pcard reveal">
+    <div class="grid cols3 wall">
+      <div class="card pcard big reveal">
         <div class="pvisual"><img class="cover" src="assets/ui.png" alt="Harmony"></div>
         <div class="pbody">
           <h3>Harmony</h3>
@@ -76,7 +83,7 @@
           <a class="btn primary" href="@HARMONY_URL@">@H_BTN@</a>
         </div>
       </div>
-      <div class="card pcard reveal">
+      <div class="card pcard small reveal">
         <div class="pvisual"><img class="appicon" src="assets/todo-icon.png" alt="@TODO_NAME@"></div>
         <div class="pbody">
           <h3>@TODO_NAME@</h3>
@@ -86,8 +93,8 @@
           <a class="btn primary" href="@TODO_URL@">@T_BTN@</a>
         </div>
       </div>
-      <div class="card pcard reveal">
-        <div class="pvisual"><span class="works-mark">🖼</span></div>
+      <div class="card pcard small works reveal">
+        <div class="pvisual"><img class="cover" src="assets/showcase-collage.jpg" alt="@WORKS_NAME@"></div>
         <div class="pbody">
           <h3>@WORKS_NAME@</h3>
           <div class="ptag">@W_PTAG@</div>
@@ -109,13 +116,13 @@
       <div class="secbar"></div>
       <p class="secdesc">@V_DESC@</p>
     </div>
-    <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🏠</div><h3>@VAL1T@</h3><p>@VAL1P@</p></div>
-      <div class="card reveal"><div class="icon">🛡</div><h3>@VAL2T@</h3><p>@VAL2P@</p></div>
-      <div class="card reveal"><div class="icon">💎</div><h3>@VAL3T@</h3><p>@VAL3P@</p></div>
-      <div class="card reveal"><div class="icon">🔑</div><h3>@VAL4T@</h3><p>@VAL4P@</p></div>
-      <div class="card reveal"><div class="icon">🔄</div><h3>@VAL5T@</h3><p>@VAL5P@</p></div>
-      <div class="card reveal"><div class="icon">👋</div><h3>@VAL6T@</h3><p>@VAL6P@</p></div>
+    <div class="vals">
+      <div class="val reveal"><h3>@VAL1T@</h3><p>@VAL1P@</p></div>
+      <div class="val reveal"><h3>@VAL2T@</h3><p>@VAL2P@</p></div>
+      <div class="val reveal"><h3>@VAL3T@</h3><p>@VAL3P@</p></div>
+      <div class="val reveal"><h3>@VAL4T@</h3><p>@VAL4P@</p></div>
+      <div class="val reveal"><h3>@VAL5T@</h3><p>@VAL5P@</p></div>
+      <div class="val reveal"><h3>@VAL6T@</h3><p>@VAL6P@</p></div>
     </div>
   </div>
 </section>
@@ -167,7 +174,7 @@
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">@FOOT_NOTE@</p>
+    <p class="fnote" style="font-size:.86rem;margin-top:26px">@FOOT_NOTE@</p>
     <div class="fbar">
       <span>© <span id="year">2026</span> zgybw</span>
       <span>@TOPBAR_RIGHT@</span>

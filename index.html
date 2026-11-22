@@ -16,6 +16,7 @@
     --grad-dark:linear-gradient(125deg,#0d0038 0%,#170057 52%,#123a9e 130%);
     --radius:14px; --shadow:0 10px 34px rgba(23,0,87,.10); --shadow-lg:0 24px 60px rgba(23,0,87,.16);
     --ease:cubic-bezier(.22,.8,.3,1);
+    --serif:Georgia,"Times New Roman","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC","Songti SC","STSong","SimSun",serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   ::selection{background:#bcd9ff;color:var(--navy2)}
@@ -240,9 +241,107 @@
   /* ---------- Hero 图标框 ---------- */
   .frame-body img.hero-icon{width:116px;height:116px;border-radius:28px;box-shadow:0 16px 40px rgba(0,0,0,.5);margin-bottom:16px}
 
+  /* ================================================================
+     主页画廊版（2026-11-22 借鉴 Oil Art Landing，仅 body.gallery 生效；
+     Harmony / 待办详情页不带 gallery 类，渲染不受影响）
+     ================================================================ */
+  .gallery{background:#FAF6EF}
+  /* 顶栏 + 导航 */
+  .gallery .topbar{background:#1E3A2F;color:#D8E2D9}
+  .gallery .topbar .tb-r{color:#9DB3A4}
+  .gallery nav{background:rgba(250,246,239,.92)}
+  .gallery .brand .mark{background:#1E3A2F;box-shadow:0 4px 14px rgba(30,58,47,.3)}
+  .gallery nav a.navlink:hover{color:#1E3A2F;background:#E9EFEA}
+  .gallery .langsel a.on{background:#1E3A2F}
+  .gallery .nav-cta{background:#1E3A2F;box-shadow:0 4px 14px rgba(30,58,47,.3)}
+  .gallery .nav-cta:hover{box-shadow:0 8px 20px rgba(30,58,47,.4)}
+  /* Hero：浅色编辑式两栏 */
+  .gallery .hero{background:#FAF6EF;color:#1C1A16;padding:76px 0 70px}
+  .gallery .hero-grid,.gallery .hero::before,.gallery .hero::after{display:none}
+  .gallery .hero .wrap.hero-in{position:relative;z-index:1;text-align:left;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .gallery .hero .badge{background:transparent;border:none;color:#1E3A2F;padding:0;margin-bottom:22px;font-size:.76rem;letter-spacing:.3em;font-weight:800}
+  .gallery .hero h1{font-family:var(--serif);font-size:clamp(2.6rem,5.4vw,4.1rem);line-height:1.18;color:#1C1A16}
+  .gallery .hero h1 .hl{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#1E3A2F;-webkit-text-fill-color:#1E3A2F;display:block}
+  .gallery .hero p.lead{color:#6E675C;margin:24px 0 32px;max-width:520px}
+  .gallery .hero .cta{justify-content:flex-start}
+  .gallery .hero .btn{border-radius:999px}
+  .gallery .hero .btn.primary{background:#1E3A2F;box-shadow:0 10px 26px rgba(30,58,47,.3)}
+  .gallery .hero .btn.primary:hover{box-shadow:0 16px 34px rgba(30,58,47,.4)}
+  .gallery .hero .btn.ghost{background:transparent;color:#1C1A16;border:1.5px solid #1C1A16}
+  .gallery .hero .btn.ghost:hover{border-color:#1E3A2F;color:#1E3A2F}
+  .gallery .hero-imgs{position:relative}
+  .gallery .hero-main{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;border-radius:6px}
+  .gallery .hero-sub{position:absolute;left:-38px;bottom:34px;width:46%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:6px solid #FAF6EF;box-shadow:0 18px 44px rgba(28,26,22,.22)}
+  .gallery .hero-cap{font-size:.8rem;color:#8A8272;margin-top:14px;text-align:right}
+  /* 数据带 */
+  .gallery .databand{background:transparent;border-top:1px solid #E4DCCB}
+  .gallery .databand::before{display:none}
+  .gallery .stat b{font-family:var(--serif);background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#1C1A16;-webkit-text-fill-color:#1C1A16}
+  .gallery .stat small{color:#8A8272}
+  /* 版块标题：左对齐 + 底线 */
+  .gallery .sechead{text-align:left;border-bottom:2px solid #1C1A16;padding-bottom:18px}
+  .gallery .sechead .kicker{justify-content:flex-start;color:#1E3A2F}
+  .gallery .sechead .kicker::before{display:none}
+  .gallery .sechead .kicker::after{background:linear-gradient(90deg,#9DB3A4,transparent)}
+  .gallery h2.sec{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2rem)}
+  .gallery .secbar{display:none}
+  .gallery p.secdesc{margin-left:0;text-align:left;color:#8A8272}
+  /* 产品画廊墙 */
+  @media(min-width:640px){
+    .gallery .grid.cols3.wall{grid-template-columns:repeat(12,1fr)}
+    .gallery .pcard.big{grid-column:span 7}
+    .gallery .pcard.small{grid-column:span 5}
+    .gallery .pcard.small.works{grid-column:6 / span 7}
+  }
+  .gallery .pcard{background:transparent;border:none;box-shadow:none}
+  .gallery .pcard:hover{transform:none;box-shadow:none}
+  .gallery .pcard::before{display:none}
+  .gallery .pcard .pvisual{height:auto;border-radius:6px;overflow:hidden;background:#1E3A2F}
+  .gallery .pcard.big .pvisual{aspect-ratio:16/9}
+  .gallery .pcard.small .pvisual{aspect-ratio:16/10}
+  .gallery .pcard .pbody{padding:18px 2px 0}
+  .gallery .pcard h3{font-family:var(--serif);font-size:1.45rem}
+  .gallery .pcard .ptag{color:#1E3A2F}
+  .gallery .pcard .ptags{gap:0}
+  .gallery .pcard .paychip{background:none;border:none;padding:0;color:#8A8272;font-size:.84rem;font-weight:600}
+  .gallery .pcard .paychip + .paychip::before{content:"·";margin:0 8px;color:#C9C2B2}
+  .gallery .pcard .btn{align-self:flex-start;background:none;color:#1C1A16;box-shadow:none;border:none;border-bottom:1.5px solid #1C1A16;border-radius:0;padding:0 0 2px;font-size:.92rem}
+  .gallery .pcard .btn:hover{transform:none;color:#1E3A2F;border-color:#1E3A2F}
+  /* 坚持：无卡片线条项 */
+  .gallery section.band{background:transparent}
+  .gallery .vals{display:grid;gap:28px}
+  @media(min-width:640px){.gallery .vals{grid-template-columns:repeat(3,1fr)}}
+  .gallery .val{border-top:2px solid #1C1A16;padding-top:16px}
+  .gallery .val h3{font-family:var(--serif);font-size:1.1rem;margin-bottom:6px}
+  .gallery .val p{color:#6E675C;font-size:.9rem}
+  /* CTA 带 */
+  .gallery .ctaband{background:#1E3A2F}
+  .gallery .ctaband::before{display:none}
+  .gallery .ctaband h2{font-family:var(--serif)}
+  .gallery .ctaband p{color:#C9D6CB}
+  .gallery .ctaband .btn.primary{background:#FAF6EF;color:#1E3A2F;box-shadow:none}
+  .gallery .ctaband .btn.primary:hover{box-shadow:0 12px 26px rgba(0,0,0,.25)}
+  .gallery .ctaband .btn.ghost{border-color:rgba(250,246,239,.6);color:#FAF6EF}
+  /* 页脚 */
+  .gallery footer{background:#1E3A2F}
+  .gallery footer .fbrand .mark{background:#FAF6EF;color:#1E3A2F}
+  .gallery footer a{color:#D8E2D9}
+  .gallery footer a:hover{color:#fff}
+  .gallery footer .fabout{color:#9DB3A4}
+  .gallery footer .fnote{color:#9DB3A4}
+  .gallery footer .wxcap{color:#9DB3A4}
+  .gallery footer .fbar{border-top-color:rgba(255,255,255,.15);color:#9DB3A4}
+  .gallery footer .langsel a.on{background:#FAF6EF;color:#1E3A2F}
+  /* 响应式 */
+  @media(max-width:820px){
+    .gallery .hero .wrap.hero-in{grid-template-columns:1fr;gap:40px}
+    .gallery .hero-sub{left:12px}
+    .gallery .hero{padding:56px 0 60px}
+  }
+
 </style>
 </head>
-<body>
+<body class="gallery">
 
 <div class="topbar">
   <div class="wrap">
@@ -266,13 +365,20 @@
 
 <header class="hero">
   <div class="hero-grid"></div>
-  <div class="wrap">
-    <div class="badge reveal">独立开发 · 本地优先 · 一次买断</div>
-    <h1 class="reveal">好工具，<span class="hl">在你的电脑上跑</span></h1>
-    <p class="lead reveal">我是独立开发者 zgybw。我做的软件都坚持一条：本地优先——数据不出本机，不依赖云端，不按量付费。目前有三款产品，点进去看看。</p>
-    <div class="cta reveal">
-      <a class="btn primary" href="#products">看看产品</a>
-      <a class="btn ghost" href="#contact">联系我</a>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <div class="badge reveal">独立开发 · 本地优先 · 一次买断</div>
+      <h1 class="reveal">好工具，<span class="hl">在你的电脑上跑</span></h1>
+      <p class="lead reveal">我是独立开发者 zgybw。我做的软件都坚持一条：本地优先——数据不出本机，不依赖云端，不按量付费。目前有三款产品，点进去看看。</p>
+      <div class="cta reveal">
+        <a class="btn primary" href="#products">看看产品</a>
+        <a class="btn ghost" href="#contact">联系我</a>
+      </div>
+    </div>
+    <div class="hero-imgs reveal">
+      <img class="hero-main" src="works/img/20261114-183525.jpg" alt="Harmony 生成 · 国风冬日汉服写真">
+      <img class="hero-sub" src="works/img/20261114-183143.jpg" alt="宋式美学">
+      <div class="hero-cap">Harmony 生成 · 国风冬日汉服写真</div>
     </div>
   </div>
 </header>
@@ -295,8 +401,8 @@
       <div class="secbar"></div>
       <p class="secdesc">三款产品，各做一件事。点进任意一款查看详细介绍。</p>
     </div>
-    <div class="grid cols3">
-      <div class="card pcard reveal">
+    <div class="grid cols3 wall">
+      <div class="card pcard big reveal">
         <div class="pvisual"><img class="cover" src="assets/ui.png" alt="Harmony"></div>
         <div class="pbody">
           <h3>Harmony</h3>
@@ -306,7 +412,7 @@
           <a class="btn primary" href="harmony.html">查看详情 →</a>
         </div>
       </div>
-      <div class="card pcard reveal">
+      <div class="card pcard small reveal">
         <div class="pvisual"><img class="appicon" src="assets/todo-icon.png" alt="拾光待办"></div>
         <div class="pbody">
           <h3>拾光待办</h3>
@@ -316,8 +422,8 @@
           <a class="btn primary" href="todo.html">查看详情 →</a>
         </div>
       </div>
-      <div class="card pcard reveal">
-        <div class="pvisual"><span class="works-mark">🖼</span></div>
+      <div class="card pcard small works reveal">
+        <div class="pvisual"><img class="cover" src="assets/showcase-collage.jpg" alt="Harmony 作品集"></div>
         <div class="pbody">
           <h3>Harmony 作品集</h3>
           <div class="ptag">Harmony 生成作品 · 图 + 提示词</div>
@@ -339,13 +445,13 @@
       <div class="secbar"></div>
       <p class="secdesc">做给每天用的工具，靠的是把几件简单的事一直做对。</p>
     </div>
-    <div class="grid cols3">
-      <div class="card reveal"><div class="icon">🏠</div><h3>本地优先</h3><p>每款产品都在本机运行，不依赖云端服务，断网照样开工。</p></div>
-      <div class="card reveal"><div class="icon">🛡</div><h3>数据不出本机</h3><p>素材、待办与作品都在你的电脑上，不上传任何服务器。</p></div>
-      <div class="card reveal"><div class="icon">💎</div><h3>一次买断</h3><p>付费产品一次买断，没有订阅，没有按量计费；买了就是你的。</p></div>
-      <div class="card reveal"><div class="icon">🔑</div><h3>离线授权</h3><p>付费产品用签名授权文件离线激活，不注册、不绑账号、不回连验证。</p></div>
-      <div class="card reveal"><div class="icon">🔄</div><h3>持续更新</h3><p>产品持续维护更新，有问题直接找开发者本人，不绕客服工单。</p></div>
-      <div class="card reveal"><div class="icon">👋</div><h3>独立开发</h3><p>由独立开发者制作与维护，反馈直达本人。</p></div>
+    <div class="vals">
+      <div class="val reveal"><h3>本地优先</h3><p>每款产品都在本机运行，不依赖云端服务，断网照样开工。</p></div>
+      <div class="val reveal"><h3>数据不出本机</h3><p>素材、待办与作品都在你的电脑上，不上传任何服务器。</p></div>
+      <div class="val reveal"><h3>一次买断</h3><p>付费产品一次买断，没有订阅，没有按量计费；买了就是你的。</p></div>
+      <div class="val reveal"><h3>离线授权</h3><p>付费产品用签名授权文件离线激活，不注册、不绑账号、不回连验证。</p></div>
+      <div class="val reveal"><h3>持续更新</h3><p>产品持续维护更新，有问题直接找开发者本人，不绕客服工单。</p></div>
+      <div class="val reveal"><h3>独立开发</h3><p>由独立开发者制作与维护，反馈直达本人。</p></div>
     </div>
   </div>
 </section>
@@ -397,7 +503,7 @@
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:#8f96c9;margin-top:26px">这里是 zgybw 的产品站：Harmony、拾光待办与 Harmony 作品集是目前的三款产品，后续会有更多加入。购买、反馈与合作请通过上方联系方式。</p>
+    <p class="fnote" style="font-size:.86rem;margin-top:26px">这里是 zgybw 的产品站：Harmony、拾光待办与 Harmony 作品集是目前的三款产品，后续会有更多加入。购买、反馈与合作请通过上方联系方式。</p>
     <div class="fbar">
       <span>© <span id="year">2026</span> zgybw</span>
       <span>Harmony v2.0 · 拾光待办 v1.5</span>
