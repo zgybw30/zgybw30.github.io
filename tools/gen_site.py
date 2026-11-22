@@ -53,7 +53,6 @@ def timeline_html(items):
 SHARED = {
 'zh': dict(
     FOOT_PRODUCTS="产品站",
-    FOOT_BINANCE="币安 @zybw30",
     F_COL_P="产品", F_COL_R="资源", F_COL_C="联系",
     F_WECHAT="微信 · zybw30（扫码添加）",
     F_ABOUT_P="本地优先的桌面软件，全部在你自己的电脑上运行。由 zybw30 独立制作与维护。",
@@ -64,7 +63,6 @@ SHARED = {
 ),
 'en': dict(
     FOOT_PRODUCTS="PRODUCTS",
-    FOOT_BINANCE="Binance @zybw30",
     F_COL_P="Products", F_COL_R="Resources", F_COL_C="Contact",
     F_WECHAT="WeChat — scan to add",
     F_ABOUT_P="Local-first desktop software that runs entirely on your own machine. Built and maintained by zybw30.",
@@ -75,7 +73,6 @@ SHARED = {
 ),
 'ja': dict(
     FOOT_PRODUCTS="製品",
-    FOOT_BINANCE="Binance @zybw30",
     F_COL_P="製品", F_COL_R="リソース", F_COL_C="連絡先",
     F_WECHAT="WeChat — スキャンして追加",
     F_ABOUT_P="ローカル優先のデスクトップソフト。すべて自分の PC で動作します。zybw30 が独立して制作・保守しています。",
