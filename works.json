@@ -1,5 +1,5 @@
 {
-    "updated": "2026-11-22T17:57:14+08:00",
+    "updated": "2026-11-22T17:57:50+08:00",
     "version": 1,
     "works": [
         {
@@ -120,6 +120,18 @@
             "series": "其他",
             "title": "证件照生成",
             "width": 1344
+        },
+        {
+            "date": "2026-11-22",
+            "height": 960,
+            "id": "20261122-175746",
+            "image": "https://zgybw30.github.io/works/img/20261122-175746.jpg",
+            "model": "qwen_image_2.1_Q8_0.gguf",
+            "prompt": "Restore this aged photograph with high fidelity. Remove dust, scratches, stains, folds, fading and excessive grain; recover natural detail with balanced highlights and shadows, without oversharpening, waxy skin or painted textures. Strictly preserve every person's identity, facial anatomy, age, expression and pose, the exact number of people, all clothing and objects, and the original composition, framing and light direction. Do not beautify, modernize, crop or extend the image, and do not invent anything that is not visible: leave unclear areas naturally soft instead of fabricating features, objects or text. Colorize it into a realistic color photograph with restrained, period-appropriate colors: natural skin tones and plausible clothing and background colors that never bleed into each other.",
+            "seed": 150858311,
+            "series": "其他",
+            "title": "老照片修复加上色",
+            "width": 1280
         }
     ]
 }
