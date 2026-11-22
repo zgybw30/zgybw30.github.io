@@ -1,5 +1,5 @@
 {
-    "updated": "2026-11-22T17:56:32+08:00",
+    "updated": "2026-11-22T17:57:14+08:00",
     "version": 1,
     "works": [
         {
@@ -107,6 +107,18 @@
             "seed": 166523389,
             "series": "其他",
             "title": "光影之剑",
+            "width": 1344
+        },
+        {
+            "date": "2026-11-22",
+            "height": 768,
+            "id": "20261122-175710",
+            "image": "https://zgybw30.github.io/works/img/20261122-175710.jpg",
+            "model": "qwen_image_2.1_Q8_0.gguf",
+            "prompt": "Turn the person in this photo into a standard ID portrait: front-facing, head and shoulders centered, both eyes looking straight at the camera, neutral expression, upright posture. Replace the clothing with a neat dark business suit with a white shirt (a formal dark blazer and blouse for a woman). Replace the background with a completely plain, uniform pure red background with no objects, shadows or gradients. Preserve the person's exact facial identity and features: no beautification, no face reshaping, no skin smoothing, no face swapping. Head-and-shoulders framing with a small margin above the head and both shoulders fully visible, like a passport photo.",
+            "seed": 54653105,
+            "series": "其他",
+            "title": "证件照生成",
             "width": 1344
         }
     ]
