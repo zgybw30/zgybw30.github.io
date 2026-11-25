@@ -1,5 +1,5 @@
 {
-    "updated": "2026-11-22T17:57:50+08:00",
+    "updated": "2026-11-25T22:56:45+08:00",
     "version": 1,
     "works": [
         {
@@ -132,6 +132,17 @@
             "series": "其他",
             "title": "老照片修复加上色",
             "width": 1280
+        },
+        {
+            "date": "2026-11-25",
+            "height": 1344,
+            "id": "20261125-225636",
+            "image": "https://zybw30.github.io/works/img/20261125-225636.jpg",
+            "model": "qwen-image-2.1-turbo-Q6_K_XL.gguf",
+            "seed": 610567829,
+            "series": "人像",
+            "title": "天照",
+            "width": 768
         }
     ]
 }
